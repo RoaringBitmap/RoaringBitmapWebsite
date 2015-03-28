@@ -1,0 +1,78 @@
+<html>
+<body style="width:15cm;margin-left:auto;margin-right:auto;">
+<h1>Roaring bitmaps</h1>
+<h2>A better compressed bitset</h2>
+
+<p>
+Bitsets, also called bitmaps, are commonly used as fast data structures. Unfortunately, they can use too much memory. To compensate, we often use compressed bitmaps.</p>
+
+<p>Roaring bitmaps are compressed bitmaps which tend to outperform conventional compressed bitmaps such as WAH, EWAH or Concise. In some instances, they can be hundreds of times faster and they often offer significantly better compression.</p>
+
+<p>Roaring bitmaps are used in <a href="http://lucene.apache.org/core/">Apache Lucene</a> (<a href="https://issues.apache.org/jira/browse/LUCENE-5983">as of version 5.0</a> using an <a href="https://svn.apache.org/viewvc/lucene/dev/branches/branch_5x/lucene/core/src/java/org/apache/lucene/util/RoaringDocIdSet.java?view=markup&pathrev=1629606">independent implementation</a>), <a href="http://druid.io/">Druid.io</a> (as of version 0.7) and <a href="https://spark.apache.org/">Apache Spark</a> (as of version 1.2).</p>
+
+<h2>Article</h2>
+<p>Samy Chambi, Daniel Lemire, Owen Kaser, Robert Godin, <a href="http://arxiv.org/pdf/1402.6407v4">Better bitmap performance with Roaring bitmaps</a>, Software: Practice and Experience (to appear) <a href="http://arxiv.org/abs/1402.6407">arXiv:1402.6407</a>. (<a href="RoaringBitmap-0.0.1-SNAPSHOT-sources.jar">Software for paper</a>) (<a href="http://lemire.me/data/realroaring2014.html">Data used in the paper</a>)</p>
+
+<h2>Java Software</h2>
+
+<p>You can browse our <a href="http://lemire.me/docs/RoaringBitmap/">API documentation</a> online. You can download releases from the <a href="http://central.maven.org/maven2/org/roaringbitmap/RoaringBitmap/">Maven repository</a> or from <a href="https://github.com/lemire/RoaringBitmap/releases">GitHub</a>. If your project depends on roaring, you  can  specify the dependency in the Maven "pom.xml" file:</p>
+  
+  <!-- HTML generated using hilite.me --><pre style="margin: 0; line-height: 125%"><span style="color: #007700">&lt;dependencies&gt;</span>
+    <span style="color: #007700">&lt;dependency&gt;</span>
+      <span style="color: #007700">&lt;groupId&gt;</span>org.roaringbitmap<span style="color: #007700">&lt;/groupId&gt;</span>
+      <span style="color: #007700">&lt;artifactId&gt;</span>RoaringBitmap<span style="color: #007700">&lt;/artifactId&gt;</span>
+      <span style="color: #007700">&lt;version&gt;</span>0.4.9<span style="color: #007700">&lt;/version&gt;</span>
+    <span style="color: #007700">&lt;/dependency&gt;</span>
+ <span style="color: #007700">&lt;/dependencies&gt;</span>
+</pre>
+
+<p>where the version tag should refer to the version you need. Code sample:</p>
+
+<pre><span style='color:#800000; font-weight:bold; '>import</span><span style='color:#004a43; '> org</span><span style='color:#808030; '>.</span><span style='color:#004a43; '>roaringbitmap</span><span style='color:#808030; '>.</span><span style='color:#800000; font-weight:bold; '>*</span><span style='color:#800080; '>;</span>
+
+    <span style='color:#696969; '>//...</span>
+
+    RoaringBitmap rr = RoaringBitmap.bitmapOf(1,2,3,1000)<span style='color:#808030; '>;</span>
+    RoaringBitmap rr2 = new RoaringBitmap()<span style='color:#808030; '>;</span>
+    for(int k = 4000<span style='color:#808030; '>;</span> k&lt;4255<span style='color:#808030; '>;</span>++k) rr2.add(k)<span style='color:#808030; '>;</span>
+
+    RoaringBitmap rror = RoaringBitmap.or(rr, rr2)<span style='color:#808030; '>;</span>
+</pre>
+<p>You can also work directly with memory-mapped bitmaps using the MutableRoaringBitmap and ImmutableRoaringBitmap classes.</p>
+
+<p>Generally, our <a href="https://github.com/lemire/RoaringBitmap">compressed bitmap Java software</a> is hosted on GitHub.</p>
+
+<p>This Java library is used by <a href="http://druid.io/">Druid.io</a> and <a href="https://spark.apache.org/">Apache Spark</a>.</p>
+
+<img src="http://www.yourkit.com/images/yklogo.png" style="float:right;margin:2x; width:2cm" />
+<p>Acknowledgement: We are using the <a href="http://www.yourkit.com">YourKit
+profiler</a> to optimize Roaring.</p>
+<h2>Go Software</h2>
+
+<p>You can browse our <a href="http://godoc.org/github.com/tgruben/roaring">API documentation</a> online. You can download the code from  <a href="https://github.com/tgruben/roaring">GitHub</a>. As usual, you can grab a copy by typing:</p>
+<pre>
+go get github.com/tgruben/roaring
+</pre> 
+
+<h2>C++ Software</h2>
+
+<p>There is a version of <a href="https://github.com/izenecloud/izenelib/blob/master/include/am/bitmap/RoaringBitmap.h">Roaring written in C++</a>. </p>
+
+
+
+<h2>Python Software</h2>
+
+<p>There is a version of <a href="https://github.com/andreasvc/roaringbitmap">Roaring written in Cython</a>. </p>
+
+<h2>Rust Software</h2>
+
+<p>There is a version of <a href="https://github.com/Nemo157/roaring-rs/">Roaring written in Rust</a>. </p>
+
+
+<h2>Funding</h2>
+
+<p>This work was supported by NSERC grant number 26143.</p>
+
+</body>
+</html>
+
