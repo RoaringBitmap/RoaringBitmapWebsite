@@ -8,7 +8,13 @@ Bitsets, also called bitmaps, are commonly used as fast data structures. Unfortu
 
 <p>Roaring bitmaps are compressed bitmaps which tend to outperform conventional compressed bitmaps such as WAH, EWAH or Concise. In some instances, they can be hundreds of times faster and they often offer significantly better compression.</p>
 
-<p>Roaring bitmaps are used in <a href="http://lucene.apache.org/core/">Apache Lucene</a> (<a href="https://issues.apache.org/jira/browse/LUCENE-5983">as of version 5.0</a> using an <a href="https://svn.apache.org/viewvc/lucene/dev/branches/branch_5x/lucene/core/src/java/org/apache/lucene/util/RoaringDocIdSet.java?view=markup&pathrev=1629606">independent implementation</a>), Metamarkets' <a href="http://druid.io/">Druid</a> (as of version 0.7), eBay's <a href="http://kylin.io">Apache Kylin</a>, and <a href="https://spark.apache.org/">Apache Spark</a> (as of version 1.2).</p>
+<p>Roaring bitmaps are used by several important systems: </p>
+<ul>
+<li>
+<a href="http://lucene.apache.org/core/">Apache Lucene</a> and derivative systems such as Solr and <a href="https://www.elastic.co/">Elastic</a>,</li>
+<li> Metamarkets' <a href="http://druid.io/">Druid</a>,</li>
+<li> eBay's <a href="http://kylin.io">Apache Kylin</a>, </li>
+<li>and <a href="https://spark.apache.org/">Apache Spark</a>.</li></ul>
 
 <h2>Article</h2>
 <p>Samy Chambi, Daniel Lemire, Owen Kaser, Robert Godin, <a href="http://arxiv.org/pdf/1402.6407">Better bitmap performance with Roaring bitmaps</a>, Software: Practice and Experience (to appear) <a href="http://arxiv.org/abs/1402.6407">arXiv:1402.6407</a>. (<a href="RoaringBitmap-0.0.1-SNAPSHOT-sources.jar">Software for paper</a>) (<a href="http://lemire.me/data/realroaring2014.html">Data used in the paper</a>)</p>
