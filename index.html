@@ -118,15 +118,15 @@ formats like WAH, EWAH, Concise... Maybe surprisingly, Roaring also generally of
 
 <p>where the version tag should refer to the version you need. Code sample:</p>
 
-<pre><span style='color:#800000; font-weight:bold; '>import</span><span style='color:#004a43; '> org</span><span style='color:#808030; '>.</span><span style='color:#004a43; '>roaringbitmap</span><span style='color:#808030; '>.</span><span style='color:#800000; font-weight:bold; '>*</span><span style='color:#800080; '>;</span>
+<pre style='color:#000000;background:#ffffff;'><span style='color:#800000; font-weight:bold; '>import</span> org<span style='color:#808030; '>.</span>roaringbitmap<span style='color:#808030; '>.</span><span style='color:#44aadd; '>*</span><span style='color:#808030; '>;</span>
 
-    <span style='color:#696969; '>//...</span>
+    <span style='color:#44aadd; '>//</span><span style='color:#808030; '>.</span><span style='color:#808030; '>.</span><span style='color:#808030; '>.</span>
 
-    RoaringBitmap rr = RoaringBitmap.bitmapOf(1,2,3,1000)<span style='color:#808030; '>;</span>
-    RoaringBitmap rr2 = new RoaringBitmap()<span style='color:#808030; '>;</span>
-    for(int k = 4000<span style='color:#808030; '>;</span> k&lt;4255<span style='color:#808030; '>;</span>++k) rr2.add(k)<span style='color:#808030; '>;</span>
+    RoaringBitmap rr <span style='color:#808030; '>=</span> RoaringBitmap<span style='color:#808030; '>.</span>bitmapOf<span style='color:#808030; '>(</span><span style='color:#008c00; '>1</span><span style='color:#808030; '>,</span><span style='color:#008c00; '>2</span><span style='color:#808030; '>,</span><span style='color:#008c00; '>3</span><span style='color:#808030; '>,</span><span style='color:#008c00; '>1000</span><span style='color:#808030; '>)</span><span style='color:#808030; '>;</span>
+    RoaringBitmap rr2 <span style='color:#808030; '>=</span> new RoaringBitmap<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span><span style='color:#808030; '>;</span>
+    <span style='color:#800000; font-weight:bold; '>for</span><span style='color:#808030; '>(</span><span style='color:#400000; '>int</span> k <span style='color:#808030; '>=</span> <span style='color:#008c00; '>4000</span><span style='color:#808030; '>;</span> k<span style='color:#44aadd; '>&lt;</span><span style='color:#008c00; '>4255</span><span style='color:#808030; '>;</span><span style='color:#44aadd; '>+</span><span style='color:#44aadd; '>+</span>k<span style='color:#808030; '>)</span> rr2<span style='color:#808030; '>.</span>add<span style='color:#808030; '>(</span>k<span style='color:#808030; '>)</span><span style='color:#808030; '>;</span>
 
-    RoaringBitmap rror = RoaringBitmap.or(rr, rr2)<span style='color:#808030; '>;</span>
+    RoaringBitmap rror <span style='color:#808030; '>=</span> RoaringBitmap<span style='color:#808030; '>.</span><span style='color:#800000; font-weight:bold; '>or</span><span style='color:#808030; '>(</span>rr<span style='color:#808030; '>,</span> rr2<span style='color:#808030; '>)</span><span style='color:#808030; '>;</span>
 </pre>
 <p>You can also work directly with memory-mapped bitmaps using the MutableRoaringBitmap and ImmutableRoaringBitmap classes.</p>
 
@@ -134,13 +134,35 @@ formats like WAH, EWAH, Concise... Maybe surprisingly, Roaring also generally of
 
 <h2>Go Software</h2>
 
-<p>You can browse our <a href="http://godoc.org/github.com/tgruben/roaring">API documentation</a> online. You can download the code from  <a href="https://github.com/tgruben/roaring">GitHub</a>. As usual, you can grab a copy by typing:</p>
+<p>You can browse our <a href="http://godoc.org/github.com/tgruben/roaring">API documentation</a> online. You can download the code from  <a href="https://github.com/RoaringBitmap/roaring">GitHub</a>. As usual, you can grab a copy by typing:</p>
 <pre>
-go get github.com/tgruben/roaring
+// dependencies
+go get github.com/smartystreets/goconvey/convey
+go get github.com/willf/bitset
+
+//  main 
+go get github.com/RoaringBitmap/roaring
+</pre>
+
+<p>Code sample:</p>
+<pre style='color:#000000;background:#ffffff;'>rb1 <span style='color:#808030; '>:</span><span style='color:#808030; '>=</span> roaring<span style='color:#808030; '>.</span>BitmapOf<span style='color:#808030; '>(</span><span style='color:#008c00; '>1</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>2</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>3</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>4</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>5</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>100</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>1000</span><span style='color:#808030; '>)</span>
+rb2 <span style='color:#808030; '>:</span><span style='color:#808030; '>=</span> roaring<span style='color:#808030; '>.</span>BitmapOf<span style='color:#808030; '>(</span><span style='color:#008c00; '>3</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>4</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>1000</span><span style='color:#808030; '>)</span>
+fmt<span style='color:#808030; '>.</span>Println<span style='color:#808030; '>(</span><span style='color:#0000e6; '>"Cardinality: "</span><span style='color:#808030; '>,</span> rb1<span style='color:#808030; '>.</span>GetCardinality<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span><span style='color:#808030; '>)</span>
+fmt<span style='color:#808030; '>.</span>Println<span style='color:#808030; '>(</span><span style='color:#0000e6; '>"Contains 3? "</span><span style='color:#808030; '>,</span> rb1<span style='color:#808030; '>.</span>Contains<span style='color:#808030; '>(</span><span style='color:#008c00; '>3</span><span style='color:#808030; '>)</span><span style='color:#808030; '>)</span>
+rb1<span style='color:#808030; '>.</span><span style='color:#800000; font-weight:bold; '>And</span><span style='color:#808030; '>(</span>rb2<span style='color:#808030; '>)</span>
+rb3 <span style='color:#808030; '>:</span><span style='color:#808030; '>=</span> roaring<span style='color:#808030; '>.</span>NewBitmap<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
+rb3<span style='color:#808030; '>.</span>Add<span style='color:#808030; '>(</span><span style='color:#008c00; '>1</span><span style='color:#808030; '>)</span>
+i <span style='color:#808030; '>:</span><span style='color:#808030; '>=</span> rb3<span style='color:#808030; '>.</span>Iterator<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
+<span style='color:#800000; font-weight:bold; '>for</span> i<span style='color:#808030; '>.</span>HasNext<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span> <span style='color:#800080; '>{</span>
+    fmt<span style='color:#808030; '>.</span>Println<span style='color:#808030; '>(</span>i<span style='color:#808030; '>.</span>Next<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span><span style='color:#808030; '>)</span>
+<span style='color:#800080; '>}</span>
+fmt<span style='color:#808030; '>.</span>Println<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
 </pre>
 
 <h2>Various ports</h2>
 
+<p>In addition to the Java and Go version describe above, there
+are many other ports.</p>
 
 <table style=" style="width:80%;border:10">
   <tr>
