@@ -235,8 +235,8 @@ roaring_bitmap_free<span style='color:#808030; '>(</span>t<span style='color:#80
 uint32_t counter <span style='color:#808030; '>=</span> <span style='color:#008c00; '>0</span><span style='color:#800080; '>;</span>
 roaring_iterate<span style='color:#808030; '>(</span>r1<span style='color:#808030; '>,</span> roaring_iterator_sumall<span style='color:#808030; '>,</span> <span style='color:#808030; '>&amp;</span>counter<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
 <span style='color:#3f5fbf; '>/**</span>
-<span style='color:#3f5fbf; '>&#xa0;* void roaring_iterator_sumall(uint32_t value, void *param) {</span>
-<span style='color:#3f5fbf; '>&#xa0;*        *(uint32_t *) param += value;</span>
+<span style='color:#3f5fbf; '>&#xa0;* bool roaring_iterator_sumall(uint32_t value, void *param) {</span>
+<span style='color:#3f5fbf; '>&#xa0;*        *(uint32_t *) param += value; return true;</span>
 <span style='color:#3f5fbf; '>&#xa0;*  }</span>
 <span style='color:#3f5fbf; '>&#xa0;*</span>
 <span style='color:#3f5fbf; '>&#xa0;*/</span>
