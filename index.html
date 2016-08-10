@@ -155,100 +155,18 @@ implementation of Roaring for C/C++ programmers.</p>
 
 <p>You can grab one of <a href="https://github.com/RoaringBitmap/CRoaring/releases">our releases</a>. Please check the <a href="https://github.com/RoaringBitmap/CRoaring">README file</a> first. There is a C and a C++ interface.</p>
 
-<p>Code sample (C version):</p>
-
-
-<pre style='color:#000000;background:#ffffff;'><span style='color:#3f5fbf; '>////</span>
-<span style='color:#3f5fbf; '>//// #include <roaring/roaring.h></span>
-<span style='color:#3f5fbf; '>////</span>
-
-<span style='color:#696969; '>// create a new empty bitmap</span>
-roaring_bitmap_t <span style='color:#808030; '>*</span>r1 <span style='color:#808030; '>=</span> roaring_bitmap_create<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-<span style='color:#696969; '>// then we can add values</span>
-<span style='color:#800000; font-weight:bold; '>for</span> <span style='color:#808030; '>(</span>uint32_t i <span style='color:#808030; '>=</span> <span style='color:#008c00; '>100</span><span style='color:#800080; '>;</span> i <span style='color:#808030; '>&lt;</span> <span style='color:#008c00; '>1000</span><span style='color:#800080; '>;</span> i<span style='color:#808030; '>+</span><span style='color:#808030; '>+</span><span style='color:#808030; '>)</span> roaring_bitmap_add<span style='color:#808030; '>(</span>r1<span style='color:#808030; '>,</span> i<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-<span style='color:#696969; '>// check whether a value is contained</span>
-assert<span style='color:#808030; '>(</span>roaring_bitmap_contains<span style='color:#808030; '>(</span>r1<span style='color:#808030; '>,</span> <span style='color:#008c00; '>500</span><span style='color:#808030; '>)</span><span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-<span style='color:#696969; '>// compute how many bits there are:</span>
-uint32_t cardinality <span style='color:#808030; '>=</span> roaring_bitmap_get_cardinality<span style='color:#808030; '>(</span>r1<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-<span style='color:#603000; '>printf</span><span style='color:#808030; '>(</span><span style='color:#800000; '>"</span><span style='color:#0000e6; '>Cardinality = </span><span style='color:#007997; '>%d</span><span style='color:#0000e6; '> </span><span style='color:#0f69ff; '>\n</span><span style='color:#800000; '>"</span><span style='color:#808030; '>,</span> cardinality<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-
-<span style='color:#696969; '>// if your bitmaps have long runs, you can compress them by calling</span>
-<span style='color:#696969; '>// run_optimize</span>
-uint32_t expectedsizebasic <span style='color:#808030; '>=</span> roaring_bitmap_portable_size_in_bytes<span style='color:#808030; '>(</span>r1<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-roaring_bitmap_run_optimize<span style='color:#808030; '>(</span>r1<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-uint32_t expectedsizerun <span style='color:#808030; '>=</span> roaring_bitmap_portable_size_in_bytes<span style='color:#808030; '>(</span>r1<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-<span style='color:#603000; '>printf</span><span style='color:#808030; '>(</span><span style='color:#800000; '>"</span><span style='color:#0000e6; '>size before run optimize </span><span style='color:#007997; '>%d</span><span style='color:#0000e6; '> bytes, and after </span><span style='color:#007997; '>%d</span><span style='color:#0000e6; '> bytes</span><span style='color:#0f69ff; '>\n</span><span style='color:#800000; '>"</span><span style='color:#808030; '>,</span>
-       expectedsizebasic<span style='color:#808030; '>,</span> expectedsizerun<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-
-<span style='color:#696969; '>// create a new bitmap containing the values {1,2,3,5,6}</span>
-roaring_bitmap_t <span style='color:#808030; '>*</span>r2 <span style='color:#808030; '>=</span> roaring_bitmap_of<span style='color:#808030; '>(</span><span style='color:#008c00; '>5</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>1</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>2</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>3</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>5</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>6</span><span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-roaring_bitmap_printf<span style='color:#808030; '>(</span>r2<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>  <span style='color:#696969; '>// print it</span>
-
-<span style='color:#696969; '>// we can also create a bitmap from a pointer to 32-bit integers</span>
-uint32_t somevalues<span style='color:#808030; '>[</span><span style='color:#808030; '>]</span> <span style='color:#808030; '>=</span> <span style='color:#800080; '>{</span><span style='color:#008c00; '>2</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>3</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>4</span><span style='color:#800080; '>}</span><span style='color:#800080; '>;</span>
-roaring_bitmap_t <span style='color:#808030; '>*</span>r3 <span style='color:#808030; '>=</span> roaring_bitmap_of_ptr<span style='color:#808030; '>(</span><span style='color:#008c00; '>3</span><span style='color:#808030; '>,</span> somevalues<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-
-<span style='color:#696969; '>// we can also go in reverse and go from arrays to bitmaps</span>
-uint32_t card1<span style='color:#800080; '>;</span>
-uint32_t <span style='color:#808030; '>*</span>arr1 <span style='color:#808030; '>=</span> roaring_bitmap_to_uint32_array<span style='color:#808030; '>(</span>r1<span style='color:#808030; '>,</span> <span style='color:#808030; '>&amp;</span>card1<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-roaring_bitmap_t <span style='color:#808030; '>*</span>r1f <span style='color:#808030; '>=</span> roaring_bitmap_of_ptr<span style='color:#808030; '>(</span>card1<span style='color:#808030; '>,</span> arr1<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-<span style='color:#603000; '>free</span><span style='color:#808030; '>(</span>arr1<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-assert<span style='color:#808030; '>(</span>roaring_bitmap_equals<span style='color:#808030; '>(</span>r1<span style='color:#808030; '>,</span> r1f<span style='color:#808030; '>)</span><span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>  <span style='color:#696969; '>// what we recover is equal</span>
-
-
-<span style='color:#696969; '>// we can copy and compare bitmaps</span>
-roaring_bitmap_t <span style='color:#808030; '>*</span>z <span style='color:#808030; '>=</span> roaring_bitmap_copy<span style='color:#808030; '>(</span>r3<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-assert<span style='color:#808030; '>(</span>roaring_bitmap_equals<span style='color:#808030; '>(</span>r3<span style='color:#808030; '>,</span> z<span style='color:#808030; '>)</span><span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>  <span style='color:#696969; '>// what we recover is equal</span>
-roaring_bitmap_free<span style='color:#808030; '>(</span>z<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-
-<span style='color:#696969; '>// we can compute union two-by-two</span>
-roaring_bitmap_t <span style='color:#808030; '>*</span>r1_2_3 <span style='color:#808030; '>=</span> roaring_bitmap_or<span style='color:#808030; '>(</span>r1<span style='color:#808030; '>,</span> r2<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-roaring_bitmap_or_inplace<span style='color:#808030; '>(</span>r1_2_3<span style='color:#808030; '>,</span> r3<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-
-<span style='color:#696969; '>// we can compute a big union</span>
-<span style='color:#800000; font-weight:bold; '>const</span> roaring_bitmap_t <span style='color:#808030; '>*</span>allmybitmaps<span style='color:#808030; '>[</span><span style='color:#808030; '>]</span> <span style='color:#808030; '>=</span> <span style='color:#800080; '>{</span>r1<span style='color:#808030; '>,</span> r2<span style='color:#808030; '>,</span> r3<span style='color:#800080; '>}</span><span style='color:#800080; '>;</span>
-roaring_bitmap_t <span style='color:#808030; '>*</span>bigunion <span style='color:#808030; '>=</span> roaring_bitmap_or_many<span style='color:#808030; '>(</span><span style='color:#008c00; '>3</span><span style='color:#808030; '>,</span> allmybitmaps<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-assert<span style='color:#808030; '>(</span>
-    roaring_bitmap_equals<span style='color:#808030; '>(</span>r1_2_3<span style='color:#808030; '>,</span> bigunion<span style='color:#808030; '>)</span><span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>  <span style='color:#696969; '>// what we recover is equal</span>
-<span style='color:#696969; '>// can also do the big union with a heap</span>
-roaring_bitmap_t <span style='color:#808030; '>*</span>bigunionheap <span style='color:#808030; '>=</span> roaring_bitmap_or_many_heap<span style='color:#808030; '>(</span><span style='color:#008c00; '>3</span><span style='color:#808030; '>,</span> allmybitmaps<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-assert_true<span style='color:#808030; '>(</span>roaring_bitmap_equals<span style='color:#808030; '>(</span>r1_2_3<span style='color:#808030; '>,</span> bigunionheap<span style='color:#808030; '>)</span><span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-
-roaring_bitmap_free<span style='color:#808030; '>(</span>r1_2_3<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-roaring_bitmap_free<span style='color:#808030; '>(</span>bigunion<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-roaring_bitmap_free<span style='color:#808030; '>(</span>bigunionheap<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-
-<span style='color:#696969; '>// we can compute intersection two-by-two</span>
-roaring_bitmap_t <span style='color:#808030; '>*</span>i1_2 <span style='color:#808030; '>=</span> roaring_bitmap_and<span style='color:#808030; '>(</span>r1<span style='color:#808030; '>,</span> r2<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-roaring_bitmap_free<span style='color:#808030; '>(</span>i1_2<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-
-<span style='color:#696969; '>// we can write a bitmap to a pointer and recover it later</span>
-uint32_t expectedsize <span style='color:#808030; '>=</span> roaring_bitmap_portable_size_in_bytes<span style='color:#808030; '>(</span>r1<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-<span style='color:#800000; font-weight:bold; '>char</span> <span style='color:#808030; '>*</span>serializedbytes <span style='color:#808030; '>=</span> <span style='color:#603000; '>malloc</span><span style='color:#808030; '>(</span>expectedsize<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-roaring_bitmap_portable_serialize<span style='color:#808030; '>(</span>r1<span style='color:#808030; '>,</span> serializedbytes<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-roaring_bitmap_t <span style='color:#808030; '>*</span>t <span style='color:#808030; '>=</span> roaring_bitmap_portable_deserialize<span style='color:#808030; '>(</span>serializedbytes<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-assert<span style='color:#808030; '>(</span>roaring_bitmap_equals<span style='color:#808030; '>(</span>r1<span style='color:#808030; '>,</span> t<span style='color:#808030; '>)</span><span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>  <span style='color:#696969; '>// what we recover is equal</span>
-roaring_bitmap_free<span style='color:#808030; '>(</span>t<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-<span style='color:#603000; '>free</span><span style='color:#808030; '>(</span>serializedbytes<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-
-<span style='color:#696969; '>// we can iterate over all values using custom functions</span>
-uint32_t counter <span style='color:#808030; '>=</span> <span style='color:#008c00; '>0</span><span style='color:#800080; '>;</span>
-roaring_iterate<span style='color:#808030; '>(</span>r1<span style='color:#808030; '>,</span> roaring_iterator_sumall<span style='color:#808030; '>,</span> <span style='color:#808030; '>&amp;</span>counter<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-<span style='color:#3f5fbf; '>/**</span>
-<span style='color:#3f5fbf; '>&#xa0;* bool roaring_iterator_sumall(uint32_t value, void *param) {</span>
-<span style='color:#3f5fbf; '>&#xa0;*        *(uint32_t *) param += value; return true;</span>
-<span style='color:#3f5fbf; '>&#xa0;*  }</span>
-<span style='color:#3f5fbf; '>&#xa0;*</span>
-<span style='color:#3f5fbf; '>&#xa0;*/</span>
-
-roaring_bitmap_free<span style='color:#808030; '>(</span>r1<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-roaring_bitmap_free<span style='color:#808030; '>(</span>r2<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-roaring_bitmap_free<span style='color:#808030; '>(</span>r3<span style='color:#808030; '>)</span><span style='color:#800080; '>;</span>
-</pre>
+<h2>Python software</h2>
+<p>We have a Python version wrapping our C/C++ code on <a href="https://github.com/Ezibenroc/PyRoaringBitMap">GitHub</a>. </p>
 
 <h2>Go Software</h2>
 
-<p>You can browse our <a href="http://godoc.org/github.com/tgruben/roaring">API documentation</a> online. You can download the code from  <a href="https://github.com/RoaringBitmap/roaring">GitHub</a>. As usual, you can grab a copy by typing:</p>
+<p>We have a Go version wrapping our C/C++ code on <a href="https://github.com/RoaringBitmap/gocroaring">GitHub</a>. You can browse the <a href="https://godoc.org/github.com/RoaringBitmap/gocroaring">documentation online</a>. You can grab a copy by typing: </p>
+<pre>
+go get github.com/RoaringBitmap/gocroaring
+</pre>
+
+
+<p>We also have a pure Go implementation. You can browse our <a href="http://godoc.org/github.com/tgruben/roaring">API documentation</a> online. You can download the code from  <a href="https://github.com/RoaringBitmap/roaring">GitHub</a>. As usual, you can grab a copy by typing:</p>
 <pre>
 // dependencies
 go get github.com/smartystreets/goconvey/convey
@@ -258,7 +176,7 @@ go get github.com/willf/bitset
 go get github.com/RoaringBitmap/roaring
 </pre>
 
-<p>Code sample:</p>
+<p>Code sample (for the pure Go version):</p>
 <pre style='color:#000000;background:#ffffff;'>rb1 <span style='color:#808030; '>:</span><span style='color:#808030; '>=</span> roaring<span style='color:#808030; '>.</span>BitmapOf<span style='color:#808030; '>(</span><span style='color:#008c00; '>1</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>2</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>3</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>4</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>5</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>100</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>1000</span><span style='color:#808030; '>)</span>
 rb2 <span style='color:#808030; '>:</span><span style='color:#808030; '>=</span> roaring<span style='color:#808030; '>.</span>BitmapOf<span style='color:#808030; '>(</span><span style='color:#008c00; '>3</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>4</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>1000</span><span style='color:#808030; '>)</span>
 fmt<span style='color:#808030; '>.</span>Println<span style='color:#808030; '>(</span><span style='color:#0000e6; '>"Cardinality: "</span><span style='color:#808030; '>,</span> rb1<span style='color:#808030; '>.</span>GetCardinality<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span><span style='color:#808030; '>)</span>
@@ -275,7 +193,7 @@ fmt<span style='color:#808030; '>.</span>Println<span style='color:#808030; '>(<
 
 <h2>Various ports</h2>
 
-<p>In addition to the Java, C/C++ and Go version describe above, there
+<p>In addition to the Java, C/C++, Python and Go versions described above, there
 are many other ports.</p>
 
 <table style=" style="width:80%;border:10">
