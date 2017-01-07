@@ -1,0 +1,269 @@
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="reset.css" />
+  <link rel="stylesheet" type="text/css" href="typeplate.css" />
+  <title>Roaring Bitmaps</title>
+</head>
+<body style="width:15cm;margin-left:auto;margin-right:auto;" class="typeset">
+<h1>Roaring bitmaps</h1>
+<h2>A better compressed bitset</h2>
+
+<p>
+Bitsets, also called bitmaps, are commonly used as fast data structures. Unfortunately, they can use too much memory. To compensate, we often use compressed bitmaps.</p>
+
+<p>Roaring bitmaps are compressed bitmaps which tend to outperform conventional compressed bitmaps such as WAH, EWAH or Concise. In some instances, they can be hundreds of times faster and they often offer significantly better compression.</p>
+
+<p>Roaring bitmaps are used by several important systems: </p>
+<ul>
+<li>
+<a href="http://lucene.apache.org/core/">Apache Lucene</a> and derivative systems such as Solr and <a href="https://www.elastic.co/">Elastic</a>,</li>
+<li> Metamarkets' <a href="http://druid.io/">Druid</a>,</li>
+<li> <a href="http://spark.apache.org">Apache Spark</a>,</li>
+<li> <a href="https://pypi.python.org/pypi/Whoosh/">Whoosh</a>,</li>
+<li> eBay's <a href="http://kylin.io">Apache Kylin</a>. </li>
+</ul>
+
+<p>There are freely available software libraries providing Roaring bitmaps in almost all
+the popular programming languages (Java, C, C++, Go, C#, Rust, Python...).</p>
+
+<p>There is a serialized <a href="https://github.com/RoaringBitmap/RoaringFormatSpec/">format specification</a> for interoperability between implementations.</a>
+
+<h2>When should you use a bitmap?</h2>
+
+
+<p>Sets are a fundamental abstraction in
+software. They can be implemented in various
+ways, as hash sets, as trees, and so forth.
+In databases and search engines, sets are often an integral
+part of indexes. For example, we may need to maintain a set
+of all documents or rows  (represented by numerical identifier)
+that satisfy some property. Besides adding or removing
+elements from the set, we need fast functions
+to compute the intersection, the union, the difference between sets, and so on.
+</p>
+
+<p>To implement a set
+of integers, a particularly appealing strategy is the
+bitmap (also called bitset or bit vector). Using n bits,
+we can represent any set made of the integers from the range
+[0,n): it suffices to set the ith bit is set to one if integer i is present in the set.
+Commodity processors use words of W=32 or W=64 bits. By combining many such words, we can
+support large values of n. Intersections, unions and differences can then be implemented
+ as bitwise AND, OR and ANDNOT operations.
+More complicated set functions can also be implemented as bitwise operations.</p>
+
+<p>When the bitset approach is applicable, it can be orders of
+magnitude faster than other possible implementation of a set (e.g., as a hash set)
+while using several times less memory.</p>
+
+
+<h2>When should you use compressed bitmaps?</h2>
+
+<p>An uncompress BitSet can use a lot of memory. For example, if you take a BitSet
+and set the bit at position 1,000,000 to true and you have just over 100kB. That's over 100kB
+to store the position of one bit. This is wasteful  even if you do not care about memory:
+suppose that you need to compute the intersection between this BitSet and another one
+that has a bit at position 1,000,001 to true, then you need to go through all these zeroes,
+whether you like it or not. That can become very wasteful.</p>
+
+<p>This being said, there are definitively cases where attempting to use compressed bitmaps is wasteful.
+For example, if you have a small universe size. E.g., your bitmaps represent sets of integers
+from [0,n) where n is small (e.g., n=64 or n=128). If you are able to uncompressed BitSet and
+it does not blow up your memory usage,  then compressed bitmaps are probably not useful
+to you. In fact, if you do not need compression, then a BitSet offers remarkable speed.</p>
+
+
+<h2>How does Roaring compares with the alternatives?</h2>
+
+
+<p>Most alternatives to Roaring are part of a larger family of compressed bitmaps that are run-length-encoded
+bitmaps. They identify long runs of 1s or 0s and they represent them with a marker word.
+If you have a local mix of 1s and 0, you use an uncompressed word.</p>
+
+<p>There are many formats in this family:</p>
+<ul>
+<li> Oracle's BBC is an obsolete format at this point: though it may provide good compression,
+it is likely much slower than more recent alternatives due to excessive branching.</li>
+<li> WAH is a patented variation on BBC that provides better performance.</li>
+<li> Concise is a variation on the patented WAH. It some specific instances, it can compress
+much better than WAH (up to 2x better), but it is generally slower.</li>
+<li> EWAH is both free of patent, and it is faster than all the above. On the downside, it
+does not compress quite as well. It is faster because it allows some form of "skipping"
+over uncompressed words. So though none of these formats are great at random access, EWAH
+is better than the alternatives.</li>
+</ul>
+
+
+<p>There is a big problem with these formats however that can hurt you badly in some cases: there is no random access. If you want to check whether a given value is present in the set, you have to start from the beginning and "uncompress" the whole thing. This means that if you want to intersect a big set with a large set, you still have to uncompress the whole big set in the worst case...</p>
+
+<p>Roaring solves this problem. It works in the following manner. It divides the data into chunks of 2<sup>16</sup> integers
+(e.g., [0, 2<sup>16</sup>), [2<sup>16</sup>, 2 x 2<sup>16</sup>), ...). Within a chunk, it can use an uncompressed bitmap, a simple list of integers,
+or a list of runs. Whatever format it uses, they all allow you to check for the present of any one value quickly
+(e.g., with a binary search). The net result is that Roaring can compute many operations much faster that run-length-encoded
+formats like WAH, EWAH, Concise... Maybe surprisingly, Roaring also generally offers better compression ratios.</p>
+
+
+
+
+<h2>Publications</h2>
+<ul>
+<li>Samy Chambi, Daniel Lemire, Owen Kaser, Robert Godin, <a href="http://arxiv.org/pdf/1402.6407">Better bitmap performance with Roaring bitmaps</a>, Software: Practice and Experience 46 (5), pages 709-719, May 2016. <a href="http://arxiv.org/abs/1402.6407">arXiv:1402.6407</a>.<!-- (<a href="RoaringBitmap-0.0.1-SNAPSHOT-sources.jar">Software for paper</a>)--> (<a href="http://lemire.me/data/realroaring2014.html">Data used in the paper</a>)</li>
+<li>
+Daniel Lemire, Gregory Ssi-Yan-Kai, Owen Kaser, <a href="http://arxiv.org/pdf/1603.06549">Consistently faster and smaller compressed bitmaps with Roaring</a>, Software: Practice and Experience (to appear)  (<a href="http://arxiv.org/abs/1603.06549">arXiv:1603.06549</a>)</li>
+<li>Samy Chambi, Daniel Lemire, Robert Godin, Kamel Boukhalfa, Charles Allen, Fangjin Yang, <a href="http://r-libre.teluq.ca/950/">Optimizing Druid with Roaring bitmaps</a>, IDEAS 2016, 2016.</a>
+</ul>
+
+
+<h2>Technical Posts</h2>
+<ul>
+<li>Galderic Punti, <a href="https://techblog.king.com/player-segmentation-using-bitmap-data-structures/">Player segmentation using bitmap data structures</a> (at <a href="https://en.wikipedia.org/wiki/King_(company)">King Digital Entertainment</a>, the company behind <a href="https://en.wikipedia.org/wiki/Candy_Crush_Saga">Candy Crush</a>)</li>
+<li>Adrien Grand, <a href="https://www.elastic.co/blog/frame-of-reference-and-roaring-bitmaps">Frame of Reference and Roaring Bitmaps</a> (at Elastic, the company behind <a href="https://en.wikipedia.org/wiki/Elasticsearch">Elasticsearch</a>)</li>
+</ul>
+
+
+
+
+
+<h2>Java Software</h2>
+
+<p>You can browse our <a href="http://lemire.me/docs/RoaringBitmap/">API documentation</a> online. You can download releases from the <a href="http://central.maven.org/maven2/org/roaringbitmap/RoaringBitmap/">Maven repository</a> or from <a href="https://github.com/lemire/RoaringBitmap/">GitHub</a>. If your project depends on roaring, you  can  specify the dependency in the Maven "pom.xml" file:</p>
+
+  <!-- HTML generated using hilite.me --><pre style="margin: 0; line-height: 125%"><span style="color: #007700">&lt;dependencies&gt;</span>
+    <span style="color: #007700">&lt;dependency&gt;</span>
+      <span style="color: #007700">&lt;groupId&gt;</span>org.roaringbitmap<span style="color: #007700">&lt;/groupId&gt;</span>
+      <span style="color: #007700">&lt;artifactId&gt;</span>RoaringBitmap<span style="color: #007700">&lt;/artifactId&gt;</span>
+      <span style="color: #007700">&lt;version&gt;</span>[0.5,)<span style="color: #007700">&lt;/version&gt;</span>
+    <span style="color: #007700">&lt;/dependency&gt;</span>
+ <span style="color: #007700">&lt;/dependencies&gt;</span>
+</pre>
+
+<p>where the version tag should refer to the version you need. Code sample:</p>
+
+<pre style='color:#000000;background:#ffffff;'><span style='color:#800000; font-weight:bold; '>import</span> org<span style='color:#808030; '>.</span>roaringbitmap<span style='color:#808030; '>.</span><span style='color:#44aadd; '>*</span><span style='color:#808030; '>;</span>
+
+    <span style='color:#44aadd; '>//</span><span style='color:#808030; '>.</span><span style='color:#808030; '>.</span><span style='color:#808030; '>.</span>
+
+    RoaringBitmap rr <span style='color:#808030; '>=</span> RoaringBitmap<span style='color:#808030; '>.</span>bitmapOf<span style='color:#808030; '>(</span><span style='color:#008c00; '>1</span><span style='color:#808030; '>,</span><span style='color:#008c00; '>2</span><span style='color:#808030; '>,</span><span style='color:#008c00; '>3</span><span style='color:#808030; '>,</span><span style='color:#008c00; '>1000</span><span style='color:#808030; '>)</span><span style='color:#808030; '>;</span>
+    RoaringBitmap rr2 <span style='color:#808030; '>=</span> new RoaringBitmap<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span><span style='color:#808030; '>;</span>
+    <span style='color:#800000; font-weight:bold; '>for</span><span style='color:#808030; '>(</span><span style='color:#400000; '>int</span> k <span style='color:#808030; '>=</span> <span style='color:#008c00; '>4000</span><span style='color:#808030; '>;</span> k<span style='color:#44aadd; '>&lt;</span><span style='color:#008c00; '>4255</span><span style='color:#808030; '>;</span><span style='color:#44aadd; '>+</span><span style='color:#44aadd; '>+</span>k<span style='color:#808030; '>)</span> rr2<span style='color:#808030; '>.</span>add<span style='color:#808030; '>(</span>k<span style='color:#808030; '>)</span><span style='color:#808030; '>;</span>
+
+    RoaringBitmap rror <span style='color:#808030; '>=</span> RoaringBitmap<span style='color:#808030; '>.</span><span style='color:#800000; font-weight:bold; '>or</span><span style='color:#808030; '>(</span>rr<span style='color:#808030; '>,</span> rr2<span style='color:#808030; '>)</span><span style='color:#808030; '>;</span>
+</pre>
+<p>You can also work directly with memory-mapped bitmaps using the MutableRoaringBitmap and ImmutableRoaringBitmap classes.</p>
+
+<p>Generally, our <a href="https://github.com/lemire/RoaringBitmap">compressed bitmap Java software</a> is hosted on GitHub.</p>
+
+<h2>C/C++ Software</h2>
+
+<p>The <a href="https://github.com/RoaringBitmap/CRoaring">CRoaring library</a> is a C/C++ library that provides an optimized
+implementation of Roaring for C/C++ programmers.</p>
+
+<p>You can grab one of <a href="https://github.com/RoaringBitmap/CRoaring/releases">our releases</a>. Please check the <a href="https://github.com/RoaringBitmap/CRoaring">README file</a> first. There is a C and a C++ interface.</p>
+
+
+
+<ul>
+<li>
+<p>We have a <strong>Python</strong> library wrapping our C code at <a href="https://github.com/Ezibenroc/PyRoaringBitMap">https://github.com/Ezibenroc/PyRoaringBitMap</a>. </p></li>
+<li><p>We have a <strong>Rust</strong> library wrapping our C code at <a href="https://github.com/saulius/croaring-rs">https://github.com/saulius/croaring-rs</a>.</p> </li>
+
+<li><p>We have a <strong>Go</strong> library wrapping our C code at <a href="https://github.com/RoaringBitmap/gocroaring">https://github.com/RoaringBitmap/gocroaring</a>. You can browse the <a href="https://godoc.org/github.com/RoaringBitmap/gocroaring">documentation online</a>. You can grab a copy by typing: </p>
+<pre>
+go get github.com/RoaringBitmap/gocroaring
+</pre>
+</li>
+<li><p>We have a <strong>C#</strong> library wrapping our C code at <a href="https://github.com/RogueException/CRoaring.Net">https://github.com/RogueException/CRoaring.Net</a>. It works under Windows and Linux.</p></li>
+<li><p>We have a <strong>Microsoft Visual Studio C++</strong> library wrapping our C code at <a href="https://github.com/mrboojum/CRoaring4VS">https://github.com/mrboojum/CRoaring4VS</a>. It works under Windows whether you have 32-bit or 64-bit hardware (x86 and x64).</p></li>
+
+</ul>
+
+
+<h2>Go Software</h2>
+
+<p>We also have a pure Go implementation. You can browse our <a href="http://godoc.org/github.com/tgruben/roaring">API documentation</a> online. You can download the code from  <a href="https://github.com/RoaringBitmap/roaring">GitHub</a>. As usual, you can grab a copy by typing:</p>
+<pre>
+// dependencies
+go get github.com/smartystreets/goconvey/convey
+go get github.com/willf/bitset
+
+//  main
+go get github.com/RoaringBitmap/roaring
+</pre>
+
+<p>Code sample (for the pure Go version):</p>
+<pre style='color:#000000;background:#ffffff;'>rb1 <span style='color:#808030; '>:</span><span style='color:#808030; '>=</span> roaring<span style='color:#808030; '>.</span>BitmapOf<span style='color:#808030; '>(</span><span style='color:#008c00; '>1</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>2</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>3</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>4</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>5</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>100</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>1000</span><span style='color:#808030; '>)</span>
+rb2 <span style='color:#808030; '>:</span><span style='color:#808030; '>=</span> roaring<span style='color:#808030; '>.</span>BitmapOf<span style='color:#808030; '>(</span><span style='color:#008c00; '>3</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>4</span><span style='color:#808030; '>,</span> <span style='color:#008c00; '>1000</span><span style='color:#808030; '>)</span>
+fmt<span style='color:#808030; '>.</span>Println<span style='color:#808030; '>(</span><span style='color:#0000e6; '>"Cardinality: "</span><span style='color:#808030; '>,</span> rb1<span style='color:#808030; '>.</span>GetCardinality<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span><span style='color:#808030; '>)</span>
+fmt<span style='color:#808030; '>.</span>Println<span style='color:#808030; '>(</span><span style='color:#0000e6; '>"Contains 3? "</span><span style='color:#808030; '>,</span> rb1<span style='color:#808030; '>.</span>Contains<span style='color:#808030; '>(</span><span style='color:#008c00; '>3</span><span style='color:#808030; '>)</span><span style='color:#808030; '>)</span>
+rb1<span style='color:#808030; '>.</span><span style='color:#800000; font-weight:bold; '>And</span><span style='color:#808030; '>(</span>rb2<span style='color:#808030; '>)</span>
+rb3 <span style='color:#808030; '>:</span><span style='color:#808030; '>=</span> roaring<span style='color:#808030; '>.</span>NewBitmap<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
+rb3<span style='color:#808030; '>.</span>Add<span style='color:#808030; '>(</span><span style='color:#008c00; '>1</span><span style='color:#808030; '>)</span>
+i <span style='color:#808030; '>:</span><span style='color:#808030; '>=</span> rb3<span style='color:#808030; '>.</span>Iterator<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
+<span style='color:#800000; font-weight:bold; '>for</span> i<span style='color:#808030; '>.</span>HasNext<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span> <span style='color:#800080; '>{</span>
+    fmt<span style='color:#808030; '>.</span>Println<span style='color:#808030; '>(</span>i<span style='color:#808030; '>.</span>Next<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span><span style='color:#808030; '>)</span>
+<span style='color:#800080; '>}</span>
+fmt<span style='color:#808030; '>.</span>Println<span style='color:#808030; '>(</span><span style='color:#808030; '>)</span>
+</pre>
+
+<h2>Various ports</h2>
+
+<p>In addition to the Java, C/C++, Python and Go versions described above, there
+are many other ports.</p>
+
+<table style=" style="width:80%;border:10">
+  <tr>
+    <td>C++</td>
+    <td><a href="https://github.com/izenecloud/izenelib/blob/master/include/am/bitmap/RoaringBitmap.h">izenelib</a> by izenecloud</td>
+  </tr>
+  <tr>
+    <td>Go</td>
+    <td><a href="https://github.com/fzandona/goroar">Roaring Bitmaps - compressed bitmaps in Go</a> by Fernando Zandona</td>
+  </tr>
+  <tr>
+    <td>C</td>
+    <td><a href="https://github.com/chriso/roaring-bitmap">Roaring bitmaps in C</a> by Chris O'Hara</td>
+  </tr>
+
+  <tr>
+    <td>Python</td>
+    <td>The <a href="https://pypi.python.org/pypi/Whoosh/">Whoosh</a> search engine uses Roaring (<a href="https://bitbucket.org/mchaput/whoosh/wiki/Home">source code</a>)</td>
+  </tr>
+  <tr>
+    <td>Java</td>
+    <td><a href="https://lucene.apache.org/core/">Apache Lucene</a> has a Roaring bitmap implementation
+    (<a href="https://github.com/apache/lucene-solr">source code</a>)</td>
+  </tr>
+  <tr>
+    <td>Cython</td>
+    <td><a href="https://github.com/andreasvc/roaringbitmap">Roaring Bitmap in Cython</a> by Andreas van Cranenburgh</td>
+  </tr>
+  <tr>
+    <td>Rust</td>
+    <td><a href="https://nemo157.com/roaring-rs/">Roaring bitmap implementation for Rust</a> by Nemo157</td>
+  </tr>
+  <tr>
+    <td>Haskell</td>
+    <td><a href="https://github.com/thsutton/rawr">Roaring bitmaps in Haskell</a> by Thomas Sutton</td>
+  </tr>
+  <tr>
+    <td>C#</td>
+    <td><a href="https://github.com/BitSetsNet/BitSetsNet">A .NET library for compressed bit set data structures</a></td>
+  </tr>
+  <tr>
+    <td>C#</td>
+    <td><a href="https://github.com/Tornhoof/RoaringBitmap">.NET Implementation of RoaringBitmap (C#)</a></td>
+  </tr>
+  <tr>
+    <td>OCaml</td>
+    <td><a href="https://github.com/travisbrady/ocaml-roaring">Roaring bitmaps for OCaml</a></td>
+  </tr>
+</table>
+
+
+
+<h2>Funding</h2>
+
+<p>This work was supported by NSERC grant number 26143.</p>
+
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title> Roaring Bitmaps -  </title>
+		<link rel="stylesheet" href="http://roaringbitmap.orgcss/foundation.css" type="text/css" media="screen">
+		<link rel="stylesheet" href="http://roaringbitmap.orgcss/styles.css" type="text/css" media="screen">
+	</head>
+
+	<body>
+		<div class="off-canvas-wrapper"> <!-- Definition of global off canvas wrapper -->
+				<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>	<!-- Definition of inner off canvas wrapper -->
+				
+				<!-- Menu -->
+				<div class="off-canvas position-left" id="mobile-menu" data-off-canvas>
+        			<ul>
+						
+						
+          				<li><a class="nav-item" href="/about">About</a></li>
+						
+          				<li><a class="nav-item" href="/publications">Publications</a></li>
+						
+          				<li><a class="nav-item" href="/software">Software</a></li>
+						
+        			</ul>
+				</div>	
+						
+				<!-- Page Content -->
+      			<div class="off-canvas-content" data-off-canvas-content>
+					
+					<!-- Foundation Mobile Menu -->
+					
+					<div class="titlebar show-for-small-only">
+						<div class="title-bar left">
+							<button class="menu-icon" type="button" data-open="mobile-menu"></button>
+							<span class="title-bar-title">MENU</span>
+						</div>
+					</div>
+
+					<!-- Partials that make up the site -->
+		  			<!-- BEGIN NAV BAR DESKTOP -->
+
+<nav class="top-bar nav-desktop ">
+	<div class="wrapper">
+		<div class="top-bar-left">
+			<a href="http://roaringbitmap.org"><h3 class="site-logo">Roaring Bitmaps</h3></a>
+		</div>
+  		<div class="top-bar-right">
+        	<ul class="menu horizontal menu-desktop">
+				
+			
+          	<li><a class="nav-item" href="/about">About</a></li>
+			
+          	<li><a class="nav-item" href="/publications">Publications</a></li>
+			
+          	<li><a class="nav-item" href="/software">Software</a></li>
+			
+        	</ul>
+  	  	</div>
+	</div>
+</nav> <!-- END NAV BAR DESKTOP -->
+		
+					<!-- BEGIN HERO PANEL -->
+
+<section class="hero-panel">
+	<div class="wrapper">
+		<h1>A better compressed bitset</h1>
+		<p>Roaring bitmaps are compressed bitmaps. They can be hundreds of times faster. </p>
+		<a href="https://arxiv.org/pdf/1603.06549.pdf" class="button primary">Grab one of our research papers</a>
+		<a href="https://github.com/RoaringBitmap/" class="button success">Roaring Bitmaps on GitHub</a>
+	</div>
+</section> <!-- END HERO PANEL -->
+
+						
+					
+					<section class="main-content">
+						<div class="wrapper row">
+							<div class="small-12 medium-12 column content-one">
+								<h1></h1>
+								<p> 
+
+<p>Bitsets, also called bitmaps, are commonly used as fast data structures. Unfortunately, they can use too much memory. To compensate, we often use compressed bitmaps.</p>
+
+<p>Roaring bitmaps are compressed bitmaps which tend to outperform conventional compressed bitmaps such as WAH, EWAH or Concise. In some instances, they can be hundreds of times faster and they often offer significantly better compression.</p>
+
+<p>Roaring bitmaps are used by several important systems:</p>
+
+<ul>
+<li><a href="http://lucene.apache.org/core/">Apache Lucene</a> and derivative systems such as Solr and <a href="https://www.elastic.co/">Elastic</a>,</li>
+<li>Metamarkets&rsquo; <a href="http://druid.io/">Druid</a>,</li>
+<li><a href="http://spark.apache.org">Apache Spark</a>,</li>
+<li><a href="https://pypi.python.org/pypi/Whoosh/">Whoosh</a>,</li>
+<li>eBay&rsquo;s <a href="http://kylin.io">Apache Kylin</a>.</li>
+</ul>
+
+<p>There are freely available software libraries providing Roaring bitmaps in almost all the popular programming languages (Java, C, C++, Go, C#, Rust, Python&hellip;).</p>
+
+<p>There is a serialized <a href="https://github.com/RoaringBitmap/RoaringFormatSpec/">format specification</a> for interoperability between implementations.</p>
+
+<h2 id="when-should-you-use-a-bitmap">When should you use a bitmap?</h2>
+
+<p>Sets are a fundamental abstraction in software. They can be implemented in various ways, as hash sets, as trees, and so forth. In databases and search engines, sets are often an integral part of indexes. For example, we may need to maintain a set of all documents or rows (represented by numerical identifier) that satisfy some property. Besides adding or removing elements from the set, we need fast functions to compute the intersection, the union, the difference between sets, and so on.</p>
+
+<p>To implement a set of integers, a particularly appealing strategy is the bitmap (also called bitset or bit vector). Using n bits, we can represent any set made of the integers from the range [0,n): it suffices to set the ith bit is set to one if integer i is present in the set. Commodity processors use words of W=32 or W=64 bits. By combining many such words, we can support large values of n. Intersections, unions and differences can then be implemented as bitwise AND, OR and ANDNOT operations. More complicated set functions can also be implemented as bitwise operations.</p>
+
+<p>When the bitset approach is applicable, it can be orders of magnitude faster than other possible implementation of a set (e.g., as a hash set) while using several times less memory.</p>
+
+<h2 id="when-should-you-use-compressed-bitmaps">When should you use compressed bitmaps?</h2>
+
+<p>An uncompress BitSet can use a lot of memory. For example, if you take a BitSet and set the bit at position 1,000,000 to true and you have just over 100kB. That&rsquo;s over 100kB to store the position of one bit. This is wasteful even if you do not care about memory: suppose that you need to compute the intersection between this BitSet and another one that has a bit at position 1,000,001 to true, then you need to go through all these zeroes, whether you like it or not. That can become very wasteful.</p>
+
+<p>This being said, there are definitively cases where attempting to use compressed bitmaps is wasteful. For example, if you have a small universe size. E.g., your bitmaps represent sets of integers from [0,n) where n is small (e.g., n=64 or n=128). If you are able to uncompressed BitSet and it does not blow up your memory usage, then compressed bitmaps are probably not useful to you. In fact, if you do not need compression, then a BitSet offers remarkable speed.</p>
+
+<h2 id="how-does-roaring-compares-with-the-alternatives">How does Roaring compares with the alternatives?</h2>
+
+<p>Most alternatives to Roaring are part of a larger family of compressed bitmaps that are run-length-encoded bitmaps. They identify long runs of 1s or 0s and they represent them with a marker word. If you have a local mix of 1s and 0, you use an uncompressed word.</p>
+
+<p>There are many formats in this family:</p>
+
+<ul>
+<li>Oracle&rsquo;s BBC is an obsolete format at this point: though it may provide good compression, it is likely much slower than more recent alternatives due to excessive branching.</li>
+<li>WAH is a patented variation on BBC that provides better performance.</li>
+<li>Concise is a variation on the patented WAH. It some specific instances, it can compress much better than WAH (up to 2x better), but it is generally slower.</li>
+<li>EWAH is both free of patent, and it is faster than all the above. On the downside, it does not compress quite as well. It is faster because it allows some form of &ldquo;skipping&rdquo; over uncompressed words. So though none of these formats are great at random access, EWAH is better than the alternatives.</li>
+</ul>
+
+<p>There is a big problem with these formats however that can hurt you badly in some cases: there is no random access. If you want to check whether a given value is present in the set, you have to start from the beginning and &ldquo;uncompress&rdquo; the whole thing. This means that if you want to intersect a big set with a large set, you still have to uncompress the whole big set in the worst case&hellip;</p>
+
+<p>Roaring solves this problem. It works in the following manner. It divides the data into chunks of 2<sup>16</sup> integers (e.g., [0, 2<sup>16</sup>), [2<sup>16</sup>, 2 x 2<sup>16</sup>), &hellip;). Within a chunk, it can use an uncompressed bitmap, a simple list of integers, or a list of runs. Whatever format it uses, they all allow you to check for the present of any one value quickly (e.g., with a binary search). The net result is that Roaring can compute many operations much faster that run-length-encoded formats like WAH, EWAH, Concise&hellip; Maybe surprisingly, Roaring also generally offers better compression ratios.</p>
+
+<h2 id="funding">Funding</h2>
+
+<p>This work was supported by NSERC grant number 26143.</p>
+ </p>
+							</div>
+						</div>
+					</section>
+							
+					<!-- BEGIN FOOTER -->
+<footer>
+<div class="wrapper row small-up-1 medium-up-3">
+		
+		<div class="column">
+		
+		
+                        
+			
+			<a href="mailto:lemire@gmail.com">lemire@gmail.com</a>
+			
+		</div>
+		
+		<div class="column">
+			<h4>Links</h4>
+			<hr>
+			
+			
+			<a class="nav-item" href="/about">About</a>
+			
+			<a class="nav-item" href="/publications">Publications</a>
+			
+			<a class="nav-item" href="/software">Software</a>
+			
+		</div>
+		
+		<div class="column">
+			<h4>Social</h4>
+			<hr>
+			
+			
+			<a class="nav-item" href="http://github.com/RoaringBitmap">Github</a>
+			
+			<a class="nav-item" href="https://groups.google.com/forum/#!forum/roaring-bitmaps">Google Groups</a>
+			
+		</div>
+                       
+
+	</div>
+</footer> <!-- END FOOTER -->
+	
+
+				</div> <!-- End page content menu wrapper -->
+		
+			</div> <!-- End of global off canvas inner wrapper -->
+		</div> <!-- End of global off canvas wrapper -->
+		
+		
+		<!-- JS includes -->
+		
+		<script src="http://roaringbitmap.orgjs/jquery.js"></script>
+		<script src="http://roaringbitmap.orgjs/what-input.js"></script>
+		<script src="http://roaringbitmap.orgjs/foundation.js"></script>
+		<script src="http://roaringbitmap.orgjs/app.js"></script>
+		
+	</body>
+</html>
+  
+  
+  
+  
