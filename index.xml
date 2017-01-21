@@ -137,7 +137,6 @@ maintain a portable &lt;a href=&#34;https://github.com/RoaringBitmap/RoaringForm
 &lt;li&gt;Python: &lt;a href=&#34;https://github.com/burtgulash/roarink&#34;&gt;Basic roaring bitmap in Python&lt;/a&gt; by Tomáš Maršálek&lt;/li&gt;
 &lt;li&gt;Rust: &lt;a href=&#34;https://nemo157.com/roaring-rs/&#34;&gt;Roaring bitmap implementation for Rust&lt;/a&gt; by Nemo157&lt;/li&gt;
 &lt;li&gt;Rust: &lt;a href=&#34;https://github.com/0x1997/roaring-bitmap&#34;&gt;An implementation of the Roaring Bitmap&lt;/a&gt; by Zhe Wang&lt;/li&gt;
-&lt;li&gt;Haskell:  &lt;a href=&#34;https://github.com/thsutton/rawr&#34;&gt;Roaring bitmaps in Haskell&lt;/a&gt; by Thomas Sutton&lt;/li&gt;
 &lt;li&gt;Haskell: &lt;a href=&#34;https://github.com/thsutton/leonine&#34;&gt;Roaring Bitmaps in Haskell&lt;/a&gt; by Thomas Sutton&lt;/li&gt;
 &lt;li&gt;Julia: &lt;a href=&#34;https://github.com/Ward9250/Roaring.jl&#34;&gt;Roaring bitmaps for julia&lt;/a&gt; by Ben J. Ward&lt;/li&gt;
 &lt;li&gt;Agda: &lt;a href=&#34;https://github.com/ak3n/agda-roaring&#34;&gt;Roaring bitmaps in Agda&lt;/a&gt; by Eugene Akentyev&lt;/li&gt;
