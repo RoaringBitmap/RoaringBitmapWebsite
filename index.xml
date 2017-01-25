@@ -26,6 +26,8 @@
 &lt;li&gt;&lt;a href=&#34;http://lucene.apache.org/core/&#34;&gt;Apache Lucene&lt;/a&gt; and derivative systems such as Solr and &lt;a href=&#34;https://www.elastic.co/&#34;&gt;Elastic&lt;/a&gt;,&lt;/li&gt;
 &lt;li&gt;Metamarkets&amp;rsquo; &lt;a href=&#34;http://druid.io/&#34;&gt;Druid&lt;/a&gt;,&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;http://spark.apache.org&#34;&gt;Apache Spark&lt;/a&gt;,&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/Netflix/atlas&#34;&gt;Netflix Atlas&lt;/a&gt;,&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/linkedin/pinot/wiki&#34;&gt;LinkedIn Pinot&lt;/a&gt;,&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://pypi.python.org/pypi/Whoosh/&#34;&gt;Whoosh&lt;/a&gt;,&lt;/li&gt;
 &lt;li&gt;eBay&amp;rsquo;s &lt;a href=&#34;http://kylin.io&#34;&gt;Apache Kylin&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
