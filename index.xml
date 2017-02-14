@@ -149,5 +149,22 @@ maintain a portable &lt;a href=&#34;https://github.com/RoaringBitmap/RoaringForm
 </description>
     </item>
     
+    <item>
+      <title>Talks</title>
+      <link>http://roaringbitmap.org/talks.html</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://roaringbitmap.org/talks.html</guid>
+      <description>&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=ubykHUyNi_0&#34;&gt;Engineering Fast Indexes for Big Data Applications&lt;/a&gt;, Spark Summit East 2017 (Boston)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=1QMgGxiCFWE&#34;&gt;Engineering Fast Indexes for Big Data Applications (deep dive)&lt;/a&gt;, Spark Summit East 2017 (Boston)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;iframe width=&#34;560&#34; height=&#34;315&#34; src=&#34;https://www.youtube.com/embed/ubykHUyNi_0&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
+
+&lt;iframe width=&#34;560&#34; height=&#34;315&#34; src=&#34;https://www.youtube.com/embed/1QMgGxiCFWE&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
+</description>
+    </item>
+    
   </channel>
 </rss>
