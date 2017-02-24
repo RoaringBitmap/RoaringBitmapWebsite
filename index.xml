@@ -108,19 +108,18 @@
       <guid>http://roaringbitmap.org/software.html</guid>
       <description>
 
-&lt;p&gt;We have a &lt;a href=&#34;https://github.com/RoaringBitmap&#34;&gt;Roaring Bitmap organization on GitHub&lt;/a&gt; counting about 40 programmers. We
+&lt;p&gt;We have a &lt;a href=&#34;https://github.com/RoaringBitmap&#34;&gt;Roaring Bitmap organization on GitHub&lt;/a&gt; counting over 40 programmers. We
 maintain a portable &lt;a href=&#34;https://github.com/RoaringBitmap/RoaringFormatSpec&#34;&gt;format specification&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/lemire/RoaringBitmap/&#34;&gt;RoaringBitmap&lt;/a&gt; is a widely used, robust &lt;strong&gt;Java&lt;/strong&gt; library.&lt;/li&gt;
-&lt;li&gt;The &lt;a href=&#34;https://github.com/RoaringBitmap/CRoaring&#34;&gt;CRoaring library&lt;/a&gt; is a &lt;strong&gt;C/C++&lt;/strong&gt; library that provides an optimized implementation of Roaring for C/C++ programmers.
+&lt;li&gt;&lt;a href=&#34;https://github.com/lemire/RoaringBitmap/&#34;&gt;RoaringBitmap&lt;/a&gt; is a widely used, optimized and robust &lt;strong&gt;Java&lt;/strong&gt; library. It supports both regular and off-heap (e.g., memory mapped) bitmaps.&lt;/li&gt;
+&lt;li&gt;The &lt;a href=&#34;https://github.com/RoaringBitmap/CRoaring&#34;&gt;CRoaring library&lt;/a&gt; is a &lt;strong&gt;C/C++&lt;/strong&gt; library that provides an optimized implementation of Roaring for C/C++ programmers. It works under Windows (Visual Studio), Linux (ARM and x64) and macOS.
 
 &lt;ul&gt;
 &lt;li&gt;We have a&lt;a href=&#34;https://github.com/Ezibenroc/PyRoaringBitMap&#34;&gt; &lt;strong&gt;Python&lt;/strong&gt; library wrapping our C code&lt;/a&gt;.&lt;/li&gt;
 &lt;li&gt;We have a &lt;a href=&#34;https://github.com/saulius/croaring-rs&#34;&gt;&lt;strong&gt;Rust&lt;/strong&gt; library wrapping our C code&lt;/a&gt;.&lt;/li&gt;
 &lt;li&gt;We have a &lt;a href=&#34;https://github.com/RoaringBitmap/gocroaring&#34;&gt;&lt;strong&gt;Go&lt;/strong&gt; library wrapping our C code&lt;/a&gt;.&lt;br /&gt;&lt;/li&gt;
 &lt;li&gt;We have a &lt;a href=&#34;https://github.com/RogueException/CRoaring.Net&#34;&gt;&lt;strong&gt;C#&lt;/strong&gt; library wrapping our C code&lt;/a&gt;. It works under Windows and Linux.&lt;/li&gt;
-&lt;li&gt;We have a &lt;a href=&#34;https://github.com/mrboojum/CRoaring4VS&#34;&gt;&lt;strong&gt;Microsoft Visual Studio C++&lt;/strong&gt; library wrapping our C code&lt;/a&gt;. It works under Windows whether you have 32-bit or 64-bit hardware (x86 and x64).&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;li&gt;We have a pure &lt;a href=&#34;https://github.com/RoaringBitmap/roaring&#34;&gt;&lt;strong&gt;Go&lt;/strong&gt; implementation of Roaring&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
@@ -130,21 +129,21 @@ maintain a portable &lt;a href=&#34;https://github.com/RoaringBitmap/RoaringForm
 &lt;p&gt;In addition to the Java, C/C++, Python and Go versions described above, there are many other ports.&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;C++: &lt;a href=&#34;https://github.com/izenecloud/izenelib/blob/master/include/am/bitmap/RoaringBitmap.h&#34;&gt;izenelib&lt;/a&gt; by izenecloud&lt;/li&gt;
-&lt;li&gt;Go: &lt;a href=&#34;https://github.com/fzandona/goroar&#34;&gt;Roaring Bitmaps - compressed bitmaps in Go&lt;/a&gt; by Fernando Zandona&lt;/li&gt;
+&lt;li&gt;Agda: &lt;a href=&#34;https://github.com/ak3n/agda-roaring&#34;&gt;Roaring bitmaps in Agda&lt;/a&gt; by Eugene Akentyev&lt;/li&gt;
 &lt;li&gt;C: &lt;a href=&#34;https://github.com/chriso/roaring-bitmap&#34;&gt;Roaring bitmaps in C&lt;/a&gt; by Chris O&amp;rsquo;Hara&lt;/li&gt;
-&lt;li&gt;Python: The &lt;a href=&#34;https://pypi.python.org/pypi/Whoosh/&#34;&gt;Whoosh&lt;/a&gt; search engine uses Roaring (&lt;a href=&#34;https://bitbucket.org/mchaput/whoosh/wiki/Home&#34;&gt;source code&lt;/a&gt;)&lt;/li&gt;
-&lt;li&gt;Java: &lt;a href=&#34;https://lucene.apache.org/core/&#34;&gt;Apache Lucene&lt;/a&gt; has a Roaring bitmap implementation (&lt;a href=&#34;https://github.com/apache/lucene-solr&#34;&gt;source code&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;C++: &lt;a href=&#34;https://github.com/izenecloud/izenelib/blob/master/include/am/bitmap/RoaringBitmap.h&#34;&gt;izenelib&lt;/a&gt; by izenecloud&lt;/li&gt;
 &lt;li&gt;Cython: &lt;a href=&#34;https://github.com/andreasvc/roaringbitmap&#34;&gt;Roaring Bitmap in Cython&lt;/a&gt; by Andreas van Cranenburgh&lt;/li&gt;
+&lt;li&gt;C#: &lt;a href=&#34;https://github.com/BitSetsNet/BitSetsNet&#34;&gt;A .NET library for compressed bit set data structures&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;C#: A &lt;a href=&#34;https://github.com/Tornhoof/RoaringBitmap&#34;&gt;.NET Implementation of RoaringBitmap (C#)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Go: &lt;a href=&#34;https://github.com/fzandona/goroar&#34;&gt;Roaring Bitmaps - compressed bitmaps in Go&lt;/a&gt; by Fernando Zandona&lt;/li&gt;
+&lt;li&gt;Haskell: &lt;a href=&#34;https://github.com/thsutton/leonine&#34;&gt;Roaring Bitmaps in Haskell&lt;/a&gt; by Thomas Sutton&lt;/li&gt;
+&lt;li&gt;Java: &lt;a href=&#34;https://lucene.apache.org/core/&#34;&gt;Apache Lucene&lt;/a&gt; has a Roaring bitmap implementation (&lt;a href=&#34;https://github.com/apache/lucene-solr&#34;&gt;source code&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;Julia: &lt;a href=&#34;https://github.com/Ward9250/Roaring.jl&#34;&gt;Roaring bitmaps for julia&lt;/a&gt; by Ben J. Ward&lt;/li&gt;
+&lt;li&gt;OCaml:  &lt;a href=&#34;https://github.com/travisbrady/ocaml-roaring&#34;&gt;Roaring bitmaps for OCaml&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Python: The &lt;a href=&#34;https://pypi.python.org/pypi/Whoosh/&#34;&gt;Whoosh&lt;/a&gt; search engine uses Roaring (&lt;a href=&#34;https://bitbucket.org/mchaput/whoosh/wiki/Home&#34;&gt;source code&lt;/a&gt;)&lt;/li&gt;
 &lt;li&gt;Python: &lt;a href=&#34;https://github.com/burtgulash/roarink&#34;&gt;Basic roaring bitmap in Python&lt;/a&gt; by Tomáš Maršálek&lt;/li&gt;
 &lt;li&gt;Rust: &lt;a href=&#34;https://nemo157.com/roaring-rs/&#34;&gt;Roaring bitmap implementation for Rust&lt;/a&gt; by Nemo157&lt;/li&gt;
 &lt;li&gt;Rust: &lt;a href=&#34;https://github.com/0x1997/roaring-bitmap&#34;&gt;An implementation of the Roaring Bitmap&lt;/a&gt; by Zhe Wang&lt;/li&gt;
-&lt;li&gt;Haskell: &lt;a href=&#34;https://github.com/thsutton/leonine&#34;&gt;Roaring Bitmaps in Haskell&lt;/a&gt; by Thomas Sutton&lt;/li&gt;
-&lt;li&gt;Julia: &lt;a href=&#34;https://github.com/Ward9250/Roaring.jl&#34;&gt;Roaring bitmaps for julia&lt;/a&gt; by Ben J. Ward&lt;/li&gt;
-&lt;li&gt;Agda: &lt;a href=&#34;https://github.com/ak3n/agda-roaring&#34;&gt;Roaring bitmaps in Agda&lt;/a&gt; by Eugene Akentyev&lt;/li&gt;
-&lt;li&gt;C#: &lt;a href=&#34;https://github.com/BitSetsNet/BitSetsNet&#34;&gt;A .NET library for compressed bit set data structures&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;C#: A &lt;a href=&#34;https://github.com/Tornhoof/RoaringBitmap&#34;&gt;.NET Implementation of RoaringBitmap (C#)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;OCaml:  &lt;a href=&#34;https://github.com/travisbrady/ocaml-roaring&#34;&gt;Roaring bitmaps for OCaml&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
     </item>
