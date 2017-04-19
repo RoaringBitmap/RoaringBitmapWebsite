@@ -20,6 +20,10 @@
 
 &lt;p&gt;Roaring bitmaps are compressed bitmaps which tend to outperform conventional compressed bitmaps such as WAH, EWAH or Concise. In some instances, they can be hundreds of times faster and they often offer significantly better compression.&lt;/p&gt;
 
+&lt;blockquote&gt;
+&lt;p&gt;Use Roaring for bitmap compression whenever possible. Do not use other bitmap compression methods (&lt;a href=&#34;http://db.ucsd.edu/wp-content/uploads/2017/03/sidm338-wangA.pdf&#34;&gt;Wang et al., SIGMOD 2017&lt;/a&gt;)&lt;/p&gt;
+&lt;/blockquote&gt;
+
 &lt;p&gt;Roaring bitmaps are used by several important systems:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -81,12 +85,23 @@
       <guid>http://roaringbitmap.org/publications.html</guid>
       <description>
 
-&lt;h2 id=&#34;academic-publications&#34;&gt;Academic Publications&lt;/h2&gt;
+&lt;h2 id=&#34;academic-publications-by-the-roaring-developers&#34;&gt;Academic Publications by the Roaring Developers&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Samy Chambi, Daniel Lemire, Owen Kaser, Robert Godin, &lt;a href=&#34;http://arxiv.org/pdf/1402.6407&#34;&gt;Better bitmap performance with Roaring bitmaps&lt;/a&gt;, Software: Practice and Experience 46 (5), pages 709-719, May 2016. &lt;a href=&#34;http://arxiv.org/abs/1402.6407&#34;&gt;arXiv:1402.6407&lt;/a&gt;. (&lt;a href=&#34;http://lemire.me/data/realroaring2014.html&#34;&gt;Data used in the paper&lt;/a&gt;)&lt;/li&gt;
 &lt;li&gt;Daniel Lemire, Gregory Ssi-Yan-Kai, Owen Kaser, &lt;a href=&#34;http://arxiv.org/pdf/1603.06549&#34;&gt;Consistently faster and smaller compressed bitmaps with Roaring&lt;/a&gt;, Software: Practice and Experience 46 (11), pages 1547-1569, November 2016. &lt;a href=&#34;http://arxiv.org/abs/1603.06549&#34;&gt;arXiv:1603.06549&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Samy Chambi, Daniel Lemire, Robert Godin, Kamel Boukhalfa, Charles Allen, Fangjin Yang, &lt;a href=&#34;http://r-libre.teluq.ca/950/&#34;&gt;Optimizing Druid with Roaring bitmaps&lt;/a&gt;, IDEAS 2016, 2016. Available freely from &lt;a href=&#34;http://dl.acm.org/citation.cfm?id=2938515&#34;&gt;ACM&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;selected-publications&#34;&gt;Selected Publications&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Jianguo Wang, Chunbin Lin, Yannis Papakonstantinou, Steven Swanson, &lt;a href=&#34;http://db.ucsd.edu/wp-content/uploads/2017/03/sidm338-wangA.pdf&#34;&gt;An Experimental Study of Bitmap Compression vs. Inverted List Compression&lt;/a&gt;, SIGMOD 2017, 2017.&lt;/li&gt;
+&lt;li&gt;Gheorghi Guzun and Guadalupe Canahuate, &lt;a href=&#34;http://dl.acm.org/citation.cfm?id=2944337&#34;&gt;Hybrid query optimization for hard-to-compress bit-vectors&lt;/a&gt;, VLDB, 2016.&lt;/li&gt;
+&lt;li&gt;Firas Abuzaid et al., &lt;a href=&#34;https://papers.nips.cc/paper/6366-yggdrasil-an-optimized-system-for-training-deep-decision-trees-at-scale&#34;&gt;Yggdrasil: An Optimized System for Training Deep Decision Trees at Scale&lt;/a&gt;, NIPS 2016, 2016.&lt;/li&gt;
+&lt;li&gt;Tarique Siddiqui et al., &lt;a href=&#34;https://arxiv.org/abs/1604.03583&#34;&gt;Effortless Data Exploration with Zenvisage: An Expressive and Interactive Visual Analytics System&lt;/a&gt;, VLDB, 2016.&lt;/li&gt;
+&lt;li&gt;Andreas van Cranenburgh, Remko Scha, Rens Bod, &lt;a href=&#34;http://jlm.ipipan.waw.pl/ojs/index.php/JLM/article/download/100/134&#34;&gt;Data-oriented parsing with discontinuous constituents and function tags&lt;/a&gt;, Journal of Language Modelling, 2016.&lt;/li&gt;
+&lt;li&gt;Benjamin Krogh, Christian S. Jensen,  Kristian Torp, &lt;a href=&#34;http://dl.acm.org/citation.cfm?doid=2996913.2996972&#34;&gt;Efficient In-memory Indexing of Network-constrained Trajectories&lt;/a&gt;, Proceedings of the 24th ACM SIGSPATIAL International Conference on Advances in Geographic Information Systems, 2016.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&#34;technical-posts&#34;&gt;Technical Posts&lt;/h2&gt;
