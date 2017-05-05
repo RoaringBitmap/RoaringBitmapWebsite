@@ -150,6 +150,7 @@ maintain a portable &lt;a href=&#34;https://github.com/RoaringBitmap/RoaringForm
 &lt;li&gt;Cython: &lt;a href=&#34;https://github.com/andreasvc/roaringbitmap&#34;&gt;Roaring Bitmap in Cython&lt;/a&gt; by Andreas van Cranenburgh&lt;/li&gt;
 &lt;li&gt;C#: &lt;a href=&#34;https://github.com/BitSetsNet/BitSetsNet&#34;&gt;A .NET library for compressed bit set data structures&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;C#: A &lt;a href=&#34;https://github.com/Tornhoof/RoaringBitmap&#34;&gt;.NET Implementation of RoaringBitmap (C#)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Go: &lt;a href=&#34;https://www.pilosa.com/&#34;&gt;Pilosa&lt;/a&gt; has its own Go implementation&lt;/li&gt;
 &lt;li&gt;Go: &lt;a href=&#34;https://github.com/fzandona/goroar&#34;&gt;Roaring Bitmaps - compressed bitmaps in Go&lt;/a&gt; by Fernando Zandona&lt;/li&gt;
 &lt;li&gt;Haskell: &lt;a href=&#34;https://github.com/thsutton/leonine&#34;&gt;Roaring Bitmaps in Haskell&lt;/a&gt; by Thomas Sutton&lt;/li&gt;
 &lt;li&gt;Java: &lt;a href=&#34;https://lucene.apache.org/core/&#34;&gt;Apache Lucene&lt;/a&gt; has a Roaring bitmap implementation (&lt;a href=&#34;https://github.com/apache/lucene-solr&#34;&gt;source code&lt;/a&gt;)&lt;/li&gt;
