@@ -134,6 +134,7 @@ maintain a portable &lt;a href=&#34;https://github.com/RoaringBitmap/RoaringForm
 &lt;li&gt;We have a&lt;a href=&#34;https://github.com/Ezibenroc/PyRoaringBitMap&#34;&gt; &lt;strong&gt;Python&lt;/strong&gt; library wrapping our C code&lt;/a&gt;.&lt;/li&gt;
 &lt;li&gt;We have a &lt;a href=&#34;https://github.com/saulius/croaring-rs&#34;&gt;&lt;strong&gt;Rust&lt;/strong&gt; library wrapping our C code&lt;/a&gt;.&lt;/li&gt;
 &lt;li&gt;We have a &lt;a href=&#34;https://github.com/RoaringBitmap/gocroaring&#34;&gt;&lt;strong&gt;Go&lt;/strong&gt; library wrapping our C code&lt;/a&gt;.&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;We have a &lt;a href=&#34;https://github.com/aviggiano/redis-roaring&#34;&gt;&lt;strong&gt;Redis&lt;/strong&gt; Module wrapping our C code&lt;/a&gt;.&lt;/li&gt;
 &lt;li&gt;We have a &lt;a href=&#34;https://github.com/RogueException/CRoaring.Net&#34;&gt;&lt;strong&gt;C#&lt;/strong&gt; library wrapping our C code&lt;/a&gt;. It works under Windows and Linux.&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;li&gt;We have a pure &lt;a href=&#34;https://github.com/RoaringBitmap/roaring&#34;&gt;&lt;strong&gt;Go&lt;/strong&gt; implementation of Roaring&lt;/a&gt;.&lt;/li&gt;
