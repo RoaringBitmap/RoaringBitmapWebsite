@@ -2,184 +2,51 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Roaring Bitmaps</title>
-    <link>http://roaringbitmap.org/index.xml</link>
+    <link>http://roaringbitmap.org/</link>
     <description>Recent content on Roaring Bitmaps</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://roaringbitmap.org/index.xml" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://roaringbitmap.org/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title></title>
-      <link>http://roaringbitmap.org/about.html</link>
+      <link>http://roaringbitmap.org/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://roaringbitmap.org/about.html</guid>
-      <description>
-
-&lt;p&gt;Bitsets, also called bitmaps, are commonly used as fast data structures. Unfortunately, they can use too much memory. To compensate, we often use compressed bitmaps.&lt;/p&gt;
-
-&lt;p&gt;Roaring bitmaps are compressed bitmaps which tend to outperform conventional compressed bitmaps such as WAH, EWAH or Concise. In some instances, they can be hundreds of times faster and they often offer significantly better compression.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Use Roaring for bitmap compression whenever possible. Do not use other bitmap compression methods (&lt;a href=&#34;http://db.ucsd.edu/wp-content/uploads/2017/03/sidm338-wangA.pdf&#34;&gt;Wang et al., SIGMOD 2017&lt;/a&gt;)&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Roaring bitmaps are used by several important systems:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://lucene.apache.org/core/&#34;&gt;Apache Lucene&lt;/a&gt; and derivative systems such as Solr and &lt;a href=&#34;https://www.elastic.co/&#34;&gt;Elastic&lt;/a&gt;,&lt;/li&gt;
-&lt;li&gt;Metamarkets&amp;rsquo; &lt;a href=&#34;http://druid.io/&#34;&gt;Druid&lt;/a&gt;,&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://spark.apache.org&#34;&gt;Apache Spark&lt;/a&gt;,&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/Netflix/atlas&#34;&gt;Netflix Atlas&lt;/a&gt;,&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/linkedin/pinot/wiki&#34;&gt;LinkedIn Pinot&lt;/a&gt;,&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://pypi.python.org/pypi/Whoosh/&#34;&gt;Whoosh&lt;/a&gt;,&lt;/li&gt;
-&lt;li&gt;eBay&amp;rsquo;s &lt;a href=&#34;http://kylin.io&#34;&gt;Apache Kylin&lt;/a&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;There are freely available software libraries providing Roaring bitmaps in almost all the popular programming languages (Java, C, C++, Go, C#, Rust, Python&amp;hellip;).&lt;/p&gt;
-
-&lt;p&gt;There is a serialized &lt;a href=&#34;https://github.com/RoaringBitmap/RoaringFormatSpec/&#34;&gt;format specification&lt;/a&gt; for interoperability between implementations.&lt;/p&gt;
-
-&lt;h2 id=&#34;when-should-you-use-a-bitmap&#34;&gt;When should you use a bitmap?&lt;/h2&gt;
-
-&lt;p&gt;Sets are a fundamental abstraction in software. They can be implemented in various ways, as hash sets, as trees, and so forth. In databases and search engines, sets are often an integral part of indexes. For example, we may need to maintain a set of all documents or rows (represented by numerical identifier) that satisfy some property. Besides adding or removing elements from the set, we need fast functions to compute the intersection, the union, the difference between sets, and so on.&lt;/p&gt;
-
-&lt;p&gt;To implement a set of integers, a particularly appealing strategy is the bitmap (also called bitset or bit vector). Using n bits, we can represent any set made of the integers from the range [0,n): it suffices to set the ith bit is set to one if integer i is present in the set. Commodity processors use words of W=32 or W=64 bits. By combining many such words, we can support large values of n. Intersections, unions and differences can then be implemented as bitwise AND, OR and ANDNOT operations. More complicated set functions can also be implemented as bitwise operations.&lt;/p&gt;
-
-&lt;p&gt;When the bitset approach is applicable, it can be orders of magnitude faster than other possible implementation of a set (e.g., as a hash set) while using several times less memory.&lt;/p&gt;
-
-&lt;h2 id=&#34;when-should-you-use-compressed-bitmaps&#34;&gt;When should you use compressed bitmaps?&lt;/h2&gt;
-
-&lt;p&gt;An uncompress BitSet can use a lot of memory. For example, if you take a BitSet and set the bit at position 1,000,000 to true and you have just over 100kB. That&amp;rsquo;s over 100kB to store the position of one bit. This is wasteful even if you do not care about memory: suppose that you need to compute the intersection between this BitSet and another one that has a bit at position 1,000,001 to true, then you need to go through all these zeroes, whether you like it or not. That can become very wasteful.&lt;/p&gt;
-
-&lt;p&gt;This being said, there are definitively cases where attempting to use compressed bitmaps is wasteful. For example, if you have a small universe size. E.g., your bitmaps represent sets of integers from [0,n) where n is small (e.g., n=64 or n=128). If you are able to uncompressed BitSet and it does not blow up your memory usage, then compressed bitmaps are probably not useful to you. In fact, if you do not need compression, then a BitSet offers remarkable speed.&lt;/p&gt;
-
-&lt;h2 id=&#34;how-does-roaring-compares-with-the-alternatives&#34;&gt;How does Roaring compares with the alternatives?&lt;/h2&gt;
-
-&lt;p&gt;Most alternatives to Roaring are part of a larger family of compressed bitmaps that are run-length-encoded bitmaps. They identify long runs of 1s or 0s and they represent them with a marker word. If you have a local mix of 1s and 0, you use an uncompressed word.&lt;/p&gt;
-
-&lt;p&gt;There are many formats in this family:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Oracle&amp;rsquo;s BBC is an obsolete format at this point: though it may provide good compression, it is likely much slower than more recent alternatives due to excessive branching.&lt;/li&gt;
-&lt;li&gt;WAH is a patented variation on BBC that provides better performance.&lt;/li&gt;
-&lt;li&gt;Concise is a variation on the patented WAH. It some specific instances, it can compress much better than WAH (up to 2x better), but it is generally slower.&lt;/li&gt;
-&lt;li&gt;EWAH is both free of patent, and it is faster than all the above. On the downside, it does not compress quite as well. It is faster because it allows some form of &amp;ldquo;skipping&amp;rdquo; over uncompressed words. So though none of these formats are great at random access, EWAH is better than the alternatives.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;There is a big problem with these formats however that can hurt you badly in some cases: there is no random access. If you want to check whether a given value is present in the set, you have to start from the beginning and &amp;ldquo;uncompress&amp;rdquo; the whole thing. This means that if you want to intersect a big set with a large set, you still have to uncompress the whole big set in the worst case&amp;hellip;&lt;/p&gt;
-
-&lt;p&gt;Roaring solves this problem. It works in the following manner. It divides the data into chunks of 2&lt;sup&gt;16&lt;/sup&gt; integers (e.g., [0, 2&lt;sup&gt;16&lt;/sup&gt;), [2&lt;sup&gt;16&lt;/sup&gt;, 2 x 2&lt;sup&gt;16&lt;/sup&gt;), &amp;hellip;). Within a chunk, it can use an uncompressed bitmap, a simple list of integers, or a list of runs. Whatever format it uses, they all allow you to check for the present of any one value quickly (e.g., with a binary search). The net result is that Roaring can compute many operations much faster that run-length-encoded formats like WAH, EWAH, Concise&amp;hellip; Maybe surprisingly, Roaring also generally offers better compression ratios.&lt;/p&gt;
-
-&lt;h2 id=&#34;funding&#34;&gt;Funding&lt;/h2&gt;
-
-&lt;p&gt;This work was supported by NSERC grant number 26143.&lt;/p&gt;
-</description>
+      <guid>http://roaringbitmap.org/about/</guid>
+      <description>Bitsets, also called bitmaps, are commonly used as fast data structures. Unfortunately, they can use too much memory. To compensate, we often use compressed bitmaps.
+Roaring bitmaps are compressed bitmaps which tend to outperform conventional compressed bitmaps such as WAH, EWAH or Concise. In some instances, they can be hundreds of times faster and they often offer significantly better compression.
+ Use Roaring for bitmap compression whenever possible. Do not use other bitmap compression methods (Wang et al.</description>
     </item>
     
     <item>
       <title></title>
-      <link>http://roaringbitmap.org/publications.html</link>
+      <link>http://roaringbitmap.org/publications/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://roaringbitmap.org/publications.html</guid>
-      <description>
-
-&lt;h2 id=&#34;academic-publications-by-the-roaring-developers&#34;&gt;Academic Publications by the Roaring Developers&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Samy Chambi, Daniel Lemire, Owen Kaser, Robert Godin, &lt;a href=&#34;http://arxiv.org/pdf/1402.6407&#34;&gt;Better bitmap performance with Roaring bitmaps&lt;/a&gt;, Software: Practice and Experience 46 (5), pages 709-719, May 2016. &lt;a href=&#34;http://arxiv.org/abs/1402.6407&#34;&gt;arXiv:1402.6407&lt;/a&gt;. (&lt;a href=&#34;http://lemire.me/data/realroaring2014.html&#34;&gt;Data used in the paper&lt;/a&gt;)&lt;/li&gt;
-&lt;li&gt;Daniel Lemire, Gregory Ssi-Yan-Kai, Owen Kaser, &lt;a href=&#34;http://arxiv.org/pdf/1603.06549&#34;&gt;Consistently faster and smaller compressed bitmaps with Roaring&lt;/a&gt;, Software: Practice and Experience 46 (11), pages 1547-1569, November 2016. &lt;a href=&#34;http://arxiv.org/abs/1603.06549&#34;&gt;arXiv:1603.06549&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Samy Chambi, Daniel Lemire, Robert Godin, Kamel Boukhalfa, Charles Allen, Fangjin Yang, &lt;a href=&#34;http://r-libre.teluq.ca/950/&#34;&gt;Optimizing Druid with Roaring bitmaps&lt;/a&gt;, IDEAS 2016, 2016. Available freely from &lt;a href=&#34;http://dl.acm.org/citation.cfm?id=2938515&#34;&gt;ACM&lt;/a&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;selected-publications&#34;&gt;Selected Publications&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Jianguo Wang, Chunbin Lin, Yannis Papakonstantinou, Steven Swanson, &lt;a href=&#34;http://db.ucsd.edu/wp-content/uploads/2017/03/sidm338-wangA.pdf&#34;&gt;An Experimental Study of Bitmap Compression vs. Inverted List Compression&lt;/a&gt;, SIGMOD 2017, 2017.&lt;/li&gt;
-&lt;li&gt;Gheorghi Guzun and Guadalupe Canahuate, &lt;a href=&#34;http://dl.acm.org/citation.cfm?id=2944337&#34;&gt;Hybrid query optimization for hard-to-compress bit-vectors&lt;/a&gt;, VLDB, 2016.&lt;/li&gt;
-&lt;li&gt;Firas Abuzaid et al., &lt;a href=&#34;https://papers.nips.cc/paper/6366-yggdrasil-an-optimized-system-for-training-deep-decision-trees-at-scale&#34;&gt;Yggdrasil: An Optimized System for Training Deep Decision Trees at Scale&lt;/a&gt;, NIPS 2016, 2016.&lt;/li&gt;
-&lt;li&gt;Tarique Siddiqui et al., &lt;a href=&#34;https://arxiv.org/abs/1604.03583&#34;&gt;Effortless Data Exploration with Zenvisage: An Expressive and Interactive Visual Analytics System&lt;/a&gt;, VLDB, 2016.&lt;/li&gt;
-&lt;li&gt;Andreas van Cranenburgh, Remko Scha, Rens Bod, &lt;a href=&#34;http://jlm.ipipan.waw.pl/ojs/index.php/JLM/article/download/100/134&#34;&gt;Data-oriented parsing with discontinuous constituents and function tags&lt;/a&gt;, Journal of Language Modelling, 2016.&lt;/li&gt;
-&lt;li&gt;Benjamin Krogh, Christian S. Jensen,  Kristian Torp, &lt;a href=&#34;http://dl.acm.org/citation.cfm?doid=2996913.2996972&#34;&gt;Efficient In-memory Indexing of Network-constrained Trajectories&lt;/a&gt;, Proceedings of the 24th ACM SIGSPATIAL International Conference on Advances in Geographic Information Systems, 2016.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;technical-posts&#34;&gt;Technical Posts&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Galderic Punti, &lt;a href=&#34;https://techblog.king.com/player-segmentation-using-bitmap-data-structures/&#34;&gt;Player segmentation using bitmap data structures&lt;/a&gt; (at &lt;a href=&#34;https://en.wikipedia.org/wiki/King_(company)&#34;&gt;King Digital Entertainment&lt;/a&gt;, the company behind &lt;a href=&#34;https://en.wikipedia.org/wiki/Candy_Crush_Saga&#34;&gt;Candy Crush&lt;/a&gt;)&lt;/li&gt;
-&lt;li&gt;Adrien Grand, &lt;a href=&#34;https://www.elastic.co/blog/frame-of-reference-and-roaring-bitmaps&#34;&gt;Frame of Reference and Roaring Bitmaps&lt;/a&gt; (at Elastic, the company behind &lt;a href=&#34;https://en.wikipedia.org/wiki/Elasticsearch&#34;&gt;Elasticsearch&lt;/a&gt;)&lt;/li&gt;
-&lt;li&gt;Conard Lee, &lt;a href=&#34;https://medium.com/engineers-optimizely/the-anatomy-of-a-druid-segment-file-bed89a93af1e#.46tincja7&#34;&gt;The anatomy of a Druid segment file&lt;/a&gt; (at Optimizely)&lt;/li&gt;
-&lt;li&gt;Mark Cooper, &lt;a href=&#34;https://brigade.engineering/10-000-times-faster-than-mysql-7296389e74bb#.l7ssb4oje&#34;&gt;10,000 times faster than MySQL?&lt;/a&gt; (at Brigade)&lt;/li&gt;
-&lt;/ul&gt;
-</description>
+      <guid>http://roaringbitmap.org/publications/</guid>
+      <description>Academic Publications by the Roaring Developers  Samy Chambi, Daniel Lemire, Owen Kaser, Robert Godin, Better bitmap performance with Roaring bitmaps, Software: Practice and Experience 46 (5), pages 709-719, May 2016. arXiv:1402.6407. (Data used in the paper) Daniel Lemire, Gregory Ssi-Yan-Kai, Owen Kaser, Consistently faster and smaller compressed bitmaps with Roaring, Software: Practice and Experience 46 (11), pages 1547-1569, November 2016. arXiv:1603.06549 Samy Chambi, Daniel Lemire, Robert Godin, Kamel Boukhalfa, Charles Allen, Fangjin Yang, Optimizing Druid with Roaring bitmaps, IDEAS 2016, 2016.</description>
     </item>
     
     <item>
       <title>Software</title>
-      <link>http://roaringbitmap.org/software.html</link>
+      <link>http://roaringbitmap.org/software/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://roaringbitmap.org/software.html</guid>
-      <description>
-
-&lt;p&gt;We have a &lt;a href=&#34;https://github.com/RoaringBitmap&#34;&gt;Roaring Bitmap organization on GitHub&lt;/a&gt; counting over 40 programmers. We
-maintain a portable &lt;a href=&#34;https://github.com/RoaringBitmap/RoaringFormatSpec&#34;&gt;format specification&lt;/a&gt;.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/lemire/RoaringBitmap/&#34;&gt;RoaringBitmap&lt;/a&gt; is a widely used, optimized and robust &lt;strong&gt;Java&lt;/strong&gt; library. It supports both regular and off-heap (e.g., memory mapped) bitmaps.&lt;/li&gt;
-&lt;li&gt;The &lt;a href=&#34;https://github.com/RoaringBitmap/CRoaring&#34;&gt;CRoaring library&lt;/a&gt; is a &lt;strong&gt;C/C++&lt;/strong&gt; library that provides an optimized implementation of Roaring for C/C++ programmers. It works under Windows (Visual Studio), Linux (ARM and x64) and macOS.
-
-&lt;ul&gt;
-&lt;li&gt;We have a&lt;a href=&#34;https://github.com/Ezibenroc/PyRoaringBitMap&#34;&gt; &lt;strong&gt;Python&lt;/strong&gt; library wrapping our C code&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;We have a &lt;a href=&#34;https://github.com/saulius/croaring-rs&#34;&gt;&lt;strong&gt;Rust&lt;/strong&gt; library wrapping our C code&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;We have a &lt;a href=&#34;https://github.com/RoaringBitmap/gocroaring&#34;&gt;&lt;strong&gt;Go&lt;/strong&gt; library wrapping our C code&lt;/a&gt;.&lt;br /&gt;&lt;/li&gt;
-&lt;li&gt;We have a &lt;a href=&#34;https://github.com/aviggiano/redis-roaring&#34;&gt;&lt;strong&gt;Redis&lt;/strong&gt; Module wrapping our C code&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;We have a &lt;a href=&#34;https://github.com/RogueException/CRoaring.Net&#34;&gt;&lt;strong&gt;C#&lt;/strong&gt; library wrapping our C code&lt;/a&gt;. It works under Windows and Linux.&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;We have a pure &lt;a href=&#34;https://github.com/RoaringBitmap/roaring&#34;&gt;&lt;strong&gt;Go&lt;/strong&gt; implementation of Roaring&lt;/a&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;various-ports&#34;&gt;Various ports&lt;/h2&gt;
-
-&lt;p&gt;In addition to the Java, C/C++, Python and Go versions described above, there are many other ports.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Agda: &lt;a href=&#34;https://github.com/ak3n/agda-roaring&#34;&gt;Roaring bitmaps in Agda&lt;/a&gt; by Eugene Akentyev&lt;/li&gt;
-&lt;li&gt;C: &lt;a href=&#34;https://github.com/chriso/roaring-bitmap&#34;&gt;Roaring bitmaps in C&lt;/a&gt; by Chris O&amp;rsquo;Hara&lt;/li&gt;
-&lt;li&gt;C++: &lt;a href=&#34;https://github.com/izenecloud/izenelib/blob/master/include/am/bitmap/RoaringBitmap.h&#34;&gt;izenelib&lt;/a&gt; by izenecloud&lt;/li&gt;
-&lt;li&gt;Cython: &lt;a href=&#34;https://github.com/andreasvc/roaringbitmap&#34;&gt;Roaring Bitmap in Cython&lt;/a&gt; by Andreas van Cranenburgh&lt;/li&gt;
-&lt;li&gt;C#: &lt;a href=&#34;https://github.com/BitSetsNet/BitSetsNet&#34;&gt;A .NET library for compressed bit set data structures&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;C#: A &lt;a href=&#34;https://github.com/Tornhoof/RoaringBitmap&#34;&gt;.NET Implementation of RoaringBitmap (C#)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Go: &lt;a href=&#34;https://www.pilosa.com/&#34;&gt;Pilosa&lt;/a&gt; has its own Go implementation&lt;/li&gt;
-&lt;li&gt;Go: &lt;a href=&#34;https://github.com/fzandona/goroar&#34;&gt;Roaring Bitmaps - compressed bitmaps in Go&lt;/a&gt; by Fernando Zandona&lt;/li&gt;
-&lt;li&gt;Haskell: &lt;a href=&#34;https://github.com/thsutton/leonine&#34;&gt;Roaring Bitmaps in Haskell&lt;/a&gt; by Thomas Sutton&lt;/li&gt;
-&lt;li&gt;Java: &lt;a href=&#34;https://lucene.apache.org/core/&#34;&gt;Apache Lucene&lt;/a&gt; has a Roaring bitmap implementation (&lt;a href=&#34;https://github.com/apache/lucene-solr&#34;&gt;source code&lt;/a&gt;)&lt;/li&gt;
-&lt;li&gt;Julia: &lt;a href=&#34;https://github.com/Ward9250/Roaring.jl&#34;&gt;Roaring bitmaps for julia&lt;/a&gt; by Ben J. Ward&lt;/li&gt;
-&lt;li&gt;OCaml:  &lt;a href=&#34;https://github.com/travisbrady/ocaml-roaring&#34;&gt;Roaring bitmaps for OCaml&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Python: The &lt;a href=&#34;https://pypi.python.org/pypi/Whoosh/&#34;&gt;Whoosh&lt;/a&gt; search engine uses Roaring (&lt;a href=&#34;https://bitbucket.org/mchaput/whoosh/wiki/Home&#34;&gt;source code&lt;/a&gt;)&lt;/li&gt;
-&lt;li&gt;Python: &lt;a href=&#34;https://github.com/burtgulash/roarink&#34;&gt;Basic roaring bitmap in Python&lt;/a&gt; by Tomáš Maršálek&lt;/li&gt;
-&lt;li&gt;Rust: &lt;a href=&#34;https://nemo157.com/roaring-rs/&#34;&gt;Roaring bitmap implementation for Rust&lt;/a&gt; by Nemo157&lt;/li&gt;
-&lt;li&gt;Rust: &lt;a href=&#34;https://github.com/0x1997/roaring-bitmap&#34;&gt;An implementation of the Roaring Bitmap&lt;/a&gt; by Zhe Wang&lt;/li&gt;
-&lt;/ul&gt;
-</description>
+      <guid>http://roaringbitmap.org/software/</guid>
+      <description>We have a Roaring Bitmap organization on GitHub counting over 40 programmers. We maintain a portable format specification.
+ RoaringBitmap is a widely used, optimized and robust Java library. It supports both regular and off-heap (e.g., memory mapped) bitmaps. The CRoaring library is a C/C++ library that provides an optimized implementation of Roaring for C/C++ programmers. It works under Windows (Visual Studio), Linux (ARM and x64) and macOS.  We have aPython library wrapping our C code.</description>
     </item>
     
     <item>
       <title>Talks</title>
-      <link>http://roaringbitmap.org/talks.html</link>
+      <link>http://roaringbitmap.org/talks/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://roaringbitmap.org/talks.html</guid>
-      <description>&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=ubykHUyNi_0&#34;&gt;Engineering Fast Indexes for Big Data Applications&lt;/a&gt;, Spark Summit East 2017 (Boston)&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=1QMgGxiCFWE&#34;&gt;Engineering Fast Indexes for Big Data Applications (deep dive)&lt;/a&gt;, Spark Summit East 2017 (Boston)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;iframe width=&#34;560&#34; height=&#34;315&#34; src=&#34;https://www.youtube.com/embed/ubykHUyNi_0&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
-
-&lt;iframe width=&#34;560&#34; height=&#34;315&#34; src=&#34;https://www.youtube.com/embed/1QMgGxiCFWE&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
-</description>
+      <guid>http://roaringbitmap.org/talks/</guid>
+      <description> Engineering Fast Indexes for Big Data Applications, Spark Summit East 2017 (Boston) Engineering Fast Indexes for Big Data Applications (deep dive), Spark Summit East 2017 (Boston)    </description>
     </item>
     
   </channel>
