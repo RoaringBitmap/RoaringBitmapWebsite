@@ -37,7 +37,7 @@ Roaring bitmaps are compressed bitmaps which tend to outperform conventional com
       
       <guid>http://roaringbitmap.org/software/</guid>
       <description>We have a Roaring Bitmap organization on GitHub counting over 40 programmers. We maintain a portable format specification.
- RoaringBitmap is a widely used, optimized and robust Java library. It supports both regular and off-heap (e.g., memory mapped) bitmaps. The CRoaring library is a C/C++ library that provides an optimized implementation of Roaring for C/C++ programmers. It works under Windows (Visual Studio), Linux (ARM and x64) and macOS.  We have aPython library wrapping our C code.</description>
+ RoaringBitmap is a widely used, optimized and robust Java library. It supports both regular and off-heap (e.g., memory mapped) bitmaps. The CRoaring library is a C/C++ library that provides an optimized implementation of Roaring for C/C++ programmers. It works under Windows (Visual Studio), Linux (ARM and x64) and macOS.  We have Python libraries wrapping our C code: PyRoaringBitMap and python-croaring.</description>
     </item>
     
     <item>
