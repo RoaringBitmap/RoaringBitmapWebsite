@@ -27,7 +27,7 @@ Roaring bitmaps are compressed bitmaps which tend to outperform conventional com
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://roaringbitmap.org/publications/</guid>
-      <description>Academic Publications by the Roaring Developers  Daniel Lemire, Owen Kaser, Nathan Kurz, Luca Deri, Chris O&amp;rsquo;Hara, François Saint-Jacques, Gregory Ssi-Yan-Kai, Roaring Bitmaps: Implementation of an Optimized Software Library, Software: Practice and Experience (to appear) arXiv:1709.07821 Samy Chambi, Daniel Lemire, Owen Kaser, Robert Godin, Better bitmap performance with Roaring bitmaps, Software: Practice and Experience 46 (5), pages 709-719, May 2016. arXiv:1402.6407. (Data used in the paper) Daniel Lemire, Gregory Ssi-Yan-Kai, Owen Kaser, Consistently faster and smaller compressed bitmaps with Roaring, Software: Practice and Experience 46 (11), pages 1547-1569, November 2016.</description>
+      <description>Academic Publications by the Roaring Developers  Daniel Lemire, Owen Kaser, Nathan Kurz, Luca Deri, Chris O&amp;rsquo;Hara, François Saint-Jacques, Gregory Ssi-Yan-Kai, Roaring Bitmaps: Implementation of an Optimized Software Library, Software: Practice and Experience 48 (4), April 2018. arXiv:1709.07821 Samy Chambi, Daniel Lemire, Owen Kaser, Robert Godin, Better bitmap performance with Roaring bitmaps, Software: Practice and Experience 46 (5), pages 709-719, May 2016. arXiv:1402.6407. (Data used in the paper) Daniel Lemire, Gregory Ssi-Yan-Kai, Owen Kaser, Consistently faster and smaller compressed bitmaps with Roaring, Software: Practice and Experience 46 (11), pages 1547-1569, November 2016.</description>
     </item>
     
     <item>
