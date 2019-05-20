@@ -29,4 +29,8 @@
     <priority>0</priority>
   </url>
   
+  <url>
+    <loc>https://roaringbitmap.org/talks/</loc>
+  </url>
+  
 </urlset>
