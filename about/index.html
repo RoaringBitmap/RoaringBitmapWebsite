@@ -119,12 +119,28 @@
 <li><a href="https://github.com/jivesoftware/miru">Jive Miru</a>,</li>
 <li><a href="https://github.com/gchq/Gaffer">Gaffer</a>,</li>
 <li><a href="http://hivemall.incubator.apache.org">Apache Hivemall</a>,</li>
+<li><a href="https://github.com/lindb/lindb">lindb</a>,</li>
+<li><a href="https://github.com/deepfabric/elasticell">Elasticell</a>,</li>
+<li><a href="https://github.com/sourcegraph/sourcegraph">SourceGraph</a>,</li>
+<li><a href="https://github.com/m3db/m3">M3</a>,</li>
+<li><a href="https://github.com/NetApp/trident">trident</a>,</li>
 <li>eBay&rsquo;s <a href="http://kylin.io">Apache Kylin</a>.</li>
 </ul>
 
 <p>There are freely available software libraries providing Roaring bitmaps in almost all the popular programming languages (Java, C, C++, Go, C#, Rust, Python&hellip;).</p>
 
 <p>There is a serialized <a href="https://github.com/RoaringBitmap/RoaringFormatSpec/">format specification</a> for interoperability between implementations.</p>
+
+<p>Roaring bitmaps are used in many proprietary systems. For example, it is used at SEEK:</p>
+
+<blockquote>
+<p>The SEEK Group is a broad array of companies that specialise in employment and education. We maintain a presence in 18 countries, reach approximately 3 billion people and employ over 10,000 individuals around the world. We invest heavily in AI and technology to deliver on our purpose of helping people live more fulfilling and productive working lives and enjoy a leading position in online employment marketplaces. A core product in online employment is Job Search. We recently released a new version of this search engine, called <a href="https://www.seek.com.au/about/news/seek-smarter-search-with-ai">Smarter Search</a>. It blends AI with advanced search technology and has delivered significant lifts in relevance and performance for both candidates and hirers. The engine indexes a massive volume of data and must answer large volumes of diverse queries with extremely low latency. We invest heavily in our own proprietary technology, but also make use of best-in-class data structures where available. We selected the open source <a href="https://roaringbitmap.org/">Roaring Bitmap</a> library as the compressed bitset at the core of the matching engine, and it has delivered fantastic speed and stability. Research into fields such as advanced data structures and high performance computing remain extremely important to SEEK and many other technology companies. We are excited to continue our own investments in these fields, along with supporting the open source ecosystem and research community through our graduate programs and sponsorships.</p>
+
+<p>Mark Pritchard,
+Director of Search and Technology,
+AI Platform Services,
+SEEK Limited</p>
+</blockquote>
 
 <h2 id="when-should-you-use-a-bitmap">When should you use a bitmap?</h2>
 
