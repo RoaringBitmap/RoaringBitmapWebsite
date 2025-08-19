@@ -1,11 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Roaring Bitmaps</title>
     <link>https://roaringbitmap.org/</link>
     <description>Recent content on Roaring Bitmaps</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://roaringbitmap.org/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    
+	<atom:link href="https://roaringbitmap.org/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title></title>
       <link>https://roaringbitmap.org/about/</link>
@@ -14,7 +18,7 @@
       <guid>https://roaringbitmap.org/about/</guid>
       <description>Bitsets, also called bitmaps, are commonly used as fast data structures. Unfortunately, they can use too much memory. To compensate, we often use compressed bitmaps.
 Roaring bitmaps are compressed bitmaps which tend to outperform conventional compressed bitmaps such as WAH, EWAH or Concise. In some instances, they can be hundreds of times faster and they often offer significantly better compression.
-Use Roaring for bitmap compression whenever possible. Do not use other bitmap compression methods (Wang et al.</description>
+ Use Roaring for bitmap compression whenever possible. Do not use other bitmap compression methods (Wang et al.</description>
     </item>
     
     <item>
@@ -23,7 +27,7 @@ Use Roaring for bitmap compression whenever possible. Do not use other bitmap co
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://roaringbitmap.org/publications/</guid>
-      <description>Academic Publications by the Roaring Developers Daniel Lemire, Owen Kaser, Nathan Kurz, Luca Deri, Chris O&amp;rsquo;Hara, François Saint-Jacques, Gregory Ssi-Yan-Kai, Roaring Bitmaps: Implementation of an Optimized Software Library, Software: Practice and Experience 48 (4), April 2018. arXiv:1709.07821 Samy Chambi, Daniel Lemire, Owen Kaser, Robert Godin, Better bitmap performance with Roaring bitmaps, Software: Practice and Experience 46 (5), pages 709-719, May 2016. arXiv:1402.6407. (Data used in the paper) Daniel Lemire, Gregory Ssi-Yan-Kai, Owen Kaser, Consistently faster and smaller compressed bitmaps with Roaring, Software: Practice and Experience 46 (11), pages 1547-1569, November 2016.</description>
+      <description>Academic Publications by the Roaring Developers  Daniel Lemire, Owen Kaser, Nathan Kurz, Luca Deri, Chris O&amp;rsquo;Hara, François Saint-Jacques, Gregory Ssi-Yan-Kai, Roaring Bitmaps: Implementation of an Optimized Software Library, Software: Practice and Experience 48 (4), April 2018. arXiv:1709.07821 Samy Chambi, Daniel Lemire, Owen Kaser, Robert Godin, Better bitmap performance with Roaring bitmaps, Software: Practice and Experience 46 (5), pages 709-719, May 2016. arXiv:1402.6407. (Data used in the paper) Daniel Lemire, Gregory Ssi-Yan-Kai, Owen Kaser, Consistently faster and smaller compressed bitmaps with Roaring, Software: Practice and Experience 46 (11), pages 1547-1569, November 2016.</description>
     </item>
     
     <item>
@@ -33,7 +37,7 @@ Use Roaring for bitmap compression whenever possible. Do not use other bitmap co
       
       <guid>https://roaringbitmap.org/software/</guid>
       <description>We have a Roaring Bitmap organization on GitHub counting over 40 programmers. We maintain a portable format specification.
-RoaringBitmap is a widely used, optimized and robust Java library. It supports both regular and off-heap (e.g., memory mapped) bitmaps. The CRoaring library is a C/C++ library that provides an optimized implementation of Roaring for C/C++ programmers. It works under Windows (Visual Studio), Linux (ARM and x64) and macOS. We have Python libraries wrapping our C code: PyRoaringBitMap and python-croaring.</description>
+ RoaringBitmap is a widely used, optimized and robust Java library. It supports both regular and off-heap (e.g., memory mapped) bitmaps. The CRoaring library is a C/C++ library that provides an optimized implementation of Roaring for C/C++ programmers. It works under Windows (Visual Studio), Linux (ARM and x64) and macOS.  We have Python libraries wrapping our C code: PyRoaringBitMap and python-croaring.</description>
     </item>
     
   </channel>
